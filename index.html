@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Manual de Vendas — Osasco Express</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* BLOCO_INÍCIO: DESIGN_TOKENS */
+:root {
+  --red:        #EA1D2C;
+  --red-dark:   #C0111E;
+  --dark:       #3E3E3E;
+  --gray1:      #F7F7F7;
+  --gray2:      #E0E0E0;
+  --gray3:      #9E9E9E;
+  --white:      #FFFFFF;
+  --green:      #50A773;
+  --orange:     #FF7A00;
+  --blue:       #3066BE;
+  --purple:     #7C3AED;
+  --gold:       #B8860B;
+  --gold-soft:  #FFF8E1;
+  --shadow:     0 2px 8px rgba(0,0,0,0.10);
+  --shadow-lg:  0 4px 20px rgba(0,0,0,0.15);
+  --radius:     10px;
+  --radius-sm:  6px;
+  --font:       'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --sidebar-w:  264px;
+  --header-h:   60px;
+}
+/* BLOCO_FIM: DESIGN_TOKENS */
+
+/* BLOCO_INÍCIO: RESET_BASE */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 14px; }
+[id] { scroll-margin-top: calc(var(--header-h) + 16px); }
+body { font-family: var(--font); background: var(--gray1); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
+a { color: var(--blue); text-decoration: none; }
+button { font-family: var(--font); cursor: pointer; border: none; outline: none; -webkit-tap-highlight-color: transparent; min-height: 44px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+/* BLOCO_FIM: RESET_BASE */
+
+/* BLOCO_INÍCIO: COMPONENTES_HEADER */
+.header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-h); background: var(--red); display: flex; align-items: center; padding: 0 20px; gap: 16px; z-index: 100; box-shadow: var(--shadow); }
+.header-logo { font-size: 15px; font-weight: 800; color: var(--white); white-space: nowrap; letter-spacing: -0.3px; }
+.header-logo span { font-size: 10px; font-weight: 400; opacity: 0.8; display: block; letter-spacing: 0; }
+.header-badge { background: rgba(255,255,255,0.2); color: var(--white); font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; letter-spacing: 0.5px; }
+.header-search { position: relative; flex: 1; max-width: 360px; }
+.header-search input { width: 100%; height: 36px; border-radius: 20px; border: none; padding: 0 16px 0 36px; font-family: var(--font); font-size: 13px; background: rgba(255,255,255,0.18); color: var(--white); outline: none; }
+.header-search input::placeholder { color: rgba(255,255,255,0.65); }
+.header-search::before { content: '🔍'; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; pointer-events: none; }
+.search-dropdown { display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); z-index: 300; max-height: 320px; overflow-y: auto; }
+.search-dropdown.open { display: block; }
+.search-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--gray2); }
+.search-item:last-child { border-bottom: none; }
+.search-item:hover { background: var(--gray1); }
+.search-item-title { font-size: 13px; font-weight: 600; color: var(--dark); }
+.search-item-sub { font-size: 11px; color: var(--gray3); margin-top: 2px; }
+.header-menu-btn { background: rgba(255,255,255,0.15); color: var(--white); font-size: 20px; width: 36px; height: 36px; border-radius: var(--radius-sm); display: none; align-items: center; justify-content: center; min-height: unset; }
+/* BLOCO_FIM: COMPONENTES_HEADER */
+
+/* BLOCO_INÍCIO: COMPONENTES_SIDEBAR */
+.layout { display: flex; padding-top: var(--header-h); min-height: 100vh; }
+.sidebar { position: fixed; top: var(--header-h); left: 0; width: var(--sidebar-w); height: calc(100vh - var(--header-h)); background: var(--white); border-right: 1px solid var(--gray2); overflow-y: auto; overflow-x: hidden; z-index: 90; }
+.sidebar::-webkit-scrollbar { width: 4px; } .sidebar::-webkit-scrollbar-thumb { background: var(--gray2); border-radius: 4px; }
+.sidebar-section { padding: 10px 0 4px; }
+.sidebar-section-label { font-size: 10px; font-weight: 700; color: var(--gray3); letter-spacing: 0.8px; text-transform: uppercase; padding: 0 16px 6px; }
+.sidebar-item { display: flex; align-items: center; gap: 10px; padding: 8px 16px; cursor: pointer; font-size: 13px; color: var(--dark); font-weight: 500; border-radius: 0; transition: background 0.15s; border-left: 3px solid transparent; white-space: nowrap; }
+.sidebar-item:hover { background: var(--gray1); }
+.sidebar-item.active { background: rgba(234,29,44,0.07); border-left-color: var(--red); color: var(--red); font-weight: 600; }
+.sidebar-item .icon { font-size: 16px; flex-shrink: 0; width: 20px; text-align: center; }
+.sidebar-divider { height: 1px; background: var(--gray2); margin: 6px 0; }
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 80; }
+/* BLOCO_FIM: COMPONENTES_SIDEBAR */
+
+/* BLOCO_INÍCIO: COMPONENTES_MAIN */
+.main { margin-left: var(--sidebar-w); flex: 1; padding: 32px 36px 80px; max-width: 100%; }
+.page { display: none; }
+.page.active { display: block; }
+.page-header { margin-bottom: 28px; }
+.page-title { font-size: 22px; font-weight: 800; color: var(--dark); letter-spacing: -0.4px; }
+.page-subtitle { font-size: 14px; color: var(--gray3); margin-top: 4px; }
+.section-title { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 14px; margin-top: 32px; padding-bottom: 8px; border-bottom: 2px solid var(--gray2); display: flex; align-items: center; gap: 8px; }
+.section-title .icon { font-size: 18px; }
+/* BLOCO_FIM: COMPONENTES_MAIN */
+
+/* BLOCO_INÍCIO: COMPONENTES_CARDS */
+.card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; margin-bottom: 14px; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px; }
+.metric-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px 18px; }
+.metric-val { font-size: 26px; font-weight: 800; color: var(--dark); letter-spacing: -0.5px; }
+.metric-val.red { color: var(--red); }
+.metric-val.green { color: var(--green); }
+.metric-label { font-size: 11px; color: var(--gray3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+.highlight-box { background: rgba(234,29,44,0.06); border-left: 4px solid var(--red); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px; margin-bottom: 14px; }
+.highlight-box.green { background: rgba(80,167,115,0.07); border-color: var(--green); }
+.highlight-box.blue { background: rgba(48,102,190,0.07); border-color: var(--blue); }
+.highlight-box.orange { background: rgba(255,122,0,0.08); border-color: var(--orange); }
+.highlight-box.gold { background: var(--gold-soft); border-color: var(--gold); }
+.highlight-box.purple { background: rgba(124,58,237,0.06); border-color: var(--purple); }
+.highlight-box-title { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.highlight-box.green .highlight-box-title { color: var(--green); }
+.highlight-box.blue .highlight-box-title { color: var(--blue); }
+.highlight-box.orange .highlight-box-title { color: var(--orange); }
+.highlight-box.gold .highlight-box-title { color: var(--gold); }
+.highlight-box.purple .highlight-box-title { color: var(--purple); }
+.highlight-box p { font-size: 13px; color: var(--dark); line-height: 1.6; }
+/* BLOCO_FIM: COMPONENTES_CARDS */
+
+/* BLOCO_INÍCIO: COMPONENTES_STEPS */
+.steps { margin-bottom: 20px; }
+.step { display: flex; gap: 14px; margin-bottom: 6px; position: relative; }
+.step:not(:last-child)::before { content: ''; position: absolute; left: 17px; top: 36px; bottom: -6px; width: 2px; background: var(--gray2); z-index: 0; }
+.step-num { width: 34px; height: 34px; border-radius: 50%; background: var(--red); color: var(--white); font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; z-index: 1; }
+.step-num.green { background: var(--green); }
+.step-num.blue { background: var(--blue); }
+.step-num.orange { background: var(--orange); }
+.step-num.gold { background: var(--gold); }
+.step-body { flex: 1; background: var(--white); border-radius: var(--radius-sm); padding: 12px 16px; box-shadow: var(--shadow); margin-bottom: 0; }
+.step-body h4 { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+.step-body p { font-size: 13px; color: var(--gray3); line-height: 1.6; }
+.step-body .step-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-bottom: 6px; }
+.step-tag.warn { background: rgba(255,122,0,0.12); color: var(--orange); }
+.step-tag.ok { background: rgba(80,167,115,0.12); color: var(--green); }
+.step-tag.info { background: rgba(48,102,190,0.10); color: var(--blue); }
+.step-tag.crit { background: rgba(234,29,44,0.10); color: var(--red); }
+/* BLOCO_FIM: COMPONENTES_STEPS */
+
+/* BLOCO_INÍCIO: COMPONENTES_SCRIPT_BOX */
+.script-box { background: #1E1B4B; border-radius: var(--radius); padding: 18px 20px; margin-bottom: 14px; position: relative; }
+.script-box-label { font-size: 10px; font-weight: 700; color: rgba(167,139,250,1); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.script-box p { font-size: 13px; color: #E0E7FF; line-height: 1.75; white-space: pre-wrap; }
+.script-box-copy { position: absolute; top: 14px; right: 14px; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; cursor: pointer; min-height: unset; transition: background 0.15s; }
+.script-box-copy:hover { background: rgba(255,255,255,0.22); }
+/* BLOCO_FIM: COMPONENTES_SCRIPT_BOX */
+
+/* BLOCO_INÍCIO: COMPONENTES_ACCORDION */
+.accordion { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 8px; overflow: hidden; }
+.accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--dark); user-select: none; }
+.accordion-header:hover { background: var(--gray1); }
+.accordion-arrow { font-size: 16px; transition: transform 0.2s; }
+.accordion.open .accordion-arrow { transform: rotate(180deg); }
+.accordion-body { display: none; padding: 0 18px 16px; font-size: 13px; color: var(--dark); line-height: 1.7; }
+.accordion.open .accordion-body { display: block; }
+/* BLOCO_FIM: COMPONENTES_ACCORDION */
+
+/* BLOCO_INÍCIO: COMPONENTES_TABLE */
+.table-wrap { overflow-x: auto; margin-bottom: 16px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--dark); color: var(--white); padding: 10px 14px; text-align: left; font-weight: 700; font-size: 12px; }
+td { padding: 9px 14px; border-bottom: 1px solid var(--gray2); vertical-align: top; line-height: 1.5; }
+tr:nth-child(even) td { background: var(--gray1); }
+tr:hover td { background: rgba(234,29,44,0.04); }
+.td-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+/* BLOCO_FIM: COMPONENTES_TABLE */
+
+/* BLOCO_INÍCIO: COMPONENTES_ALERTA */
+.alert { border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 14px; font-size: 13px; line-height: 1.6; display: flex; gap: 10px; align-items: flex-start; }
+.alert.red { background: rgba(234,29,44,0.08); color: #B71C1C; border: 1px solid rgba(234,29,44,0.2); }
+.alert.green { background: rgba(80,167,115,0.09); color: #1B5E20; border: 1px solid rgba(80,167,115,0.25); }
+.alert.orange { background: rgba(255,122,0,0.09); color: #BF360C; border: 1px solid rgba(255,122,0,0.25); }
+.alert.blue { background: rgba(48,102,190,0.08); color: #0D47A1; border: 1px solid rgba(48,102,190,0.2); }
+.alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+/* BLOCO_FIM: COMPONENTES_ALERTA */
+
+/* BLOCO_INÍCIO: COMPONENTES_PERFIL_CARD */
+.perfil-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; display: flex; gap: 14px; margin-bottom: 14px; border-left: 4px solid var(--gray2); }
+.perfil-card.green { border-left-color: var(--green); }
+.perfil-card.red { border-left-color: var(--red); }
+.perfil-card.blue { border-left-color: var(--blue); }
+.perfil-card.gold { border-left-color: var(--gold); }
+.perfil-emoji { font-size: 28px; flex-shrink: 0; }
+.perfil-info h4 { font-size: 14px; font-weight: 700; color: var(--dark); }
+.perfil-info p { font-size: 13px; color: var(--gray3); margin-top: 4px; line-height: 1.6; }
+.perfil-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.perfil-tag { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; background: var(--gray1); color: var(--gray3); border: 1px solid var(--gray2); }
+.perfil-tag.yes { background: rgba(80,167,115,0.1); color: var(--green); border-color: rgba(80,167,115,0.2); }
+.perfil-tag.no { background: rgba(234,29,44,0.08); color: var(--red); border-color: rgba(234,29,44,0.15); }
+/* BLOCO_FIM: COMPONENTES_PERFIL_CARD */
+
+/* BLOCO_INÍCIO: COMPONENTES_EXPERT_CARD */
+.expert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-bottom: 20px; }
+.expert-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; border-top: 4px solid var(--red); }
+.expert-card.blue { border-top-color: var(--blue); }
+.expert-card.gold { border-top-color: var(--gold); }
+.expert-card.purple { border-top-color: var(--purple); }
+.expert-card.green { border-top-color: var(--green); }
+.expert-name { font-size: 14px; font-weight: 800; color: var(--dark); }
+.expert-role { font-size: 11px; color: var(--gray3); margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+.expert-desc { font-size: 12px; color: var(--dark); margin-top: 10px; line-height: 1.6; }
+.expert-why { font-size: 11px; color: var(--gray3); margin-top: 8px; line-height: 1.5; border-top: 1px solid var(--gray2); padding-top: 8px; }
+/* BLOCO_FIM: COMPONENTES_EXPERT_CARD */
+
+/* BLOCO_INÍCIO: COMPONENTES_RESPONSIVO */
+@media (max-width: 1024px) {
+  .sidebar { transform: translateX(-100%); transition: transform 0.25s ease; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay.open { display: block; }
+  .main { margin-left: 0; padding: 20px 18px 80px; }
+  .header-search { display: none; }
+  .header-menu-btn { display: flex; }
+  .card-grid { grid-template-columns: 1fr 1fr; }
+  .expert-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 430px) {
+  .main { padding: 16px 14px 80px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .page-title { font-size: 18px; }
+  body { padding-bottom: env(safe-area-inset-bottom); }
+}
+/* BLOCO_FIM: COMPONENTES_RESPONSIVO */
+</style>
+</head>
+<body>
+
+<!-- BLOCO_INÍCIO: HTML_HEADER -->
+<header class="header">
+  <button class="header-menu-btn" id="menuBtn">☰</button>
+  <div class="header-logo">Osasco Express <span>Manual de Vendas v1.0</span></div>
+  <div class="header-badge">COMERCIAL</div>
+  <div class="header-search">
+    <input type="text" id="searchInput" placeholder="Buscar no manual..." autocomplete="off">
+    <div class="search-dropdown" id="searchDropdown"></div>
+  </div>
+</header>
+<!-- BLOCO_FIM: HTML_HEADER -->
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="layout">
+
+<!-- BLOCO_INÍCIO: HTML_SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Visão Geral</div>
+    <div class="sidebar-item active" data-page="inicio"><span class="icon">🏠</span>Início</div>
+    <div class="sidebar-item" data-page="cliente-ideal"><span class="icon">🎯</span>Quem é o cliente certo</div>
+    <div class="sidebar-item" data-page="mercado"><span class="icon">💰</span>O mercado e os números</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">O Processo de Venda</div>
+    <div class="sidebar-item" data-page="primeiro-contato"><span class="icon">📲</span>1. Primeiro contato</div>
+    <div class="sidebar-item" data-page="diagnostico"><span class="icon">🩺</span>2. Diagnóstico da dor</div>
+    <div class="sidebar-item" data-page="planilha"><span class="icon">📊</span>3. A planilha de vendas</div>
+    <div class="sidebar-item" data-page="apresentacao"><span class="icon">🎤</span>4. Apresentação</div>
+    <div class="sidebar-item" data-page="objecoes"><span class="icon">🛡️</span>5. Objeções</div>
+    <div class="sidebar-item" data-page="fechamento"><span class="icon">✅</span>6. Fechamento</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Operação Comercial</div>
+    <div class="sidebar-item" data-page="funil"><span class="icon">📐</span>Funil + KPIs</div>
+    <div class="sidebar-item" data-page="roteiro-call"><span class="icon">📞</span>Roteiro da call (45 min)</div>
+    <div class="sidebar-item" data-page="faq"><span class="icon">❓</span>FAQ do vendedor</div>
+    <div class="sidebar-item" data-page="handoff"><span class="icon">🔗</span>Handoff → Proposta OE</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Ferramentas</div>
+    <div class="sidebar-item" data-page="scripts"><span class="icon">💬</span>Scripts prontos</div>
+    <div class="sidebar-item" data-page="psicologia"><span class="icon">🧠</span>Psicologia da venda</div>
+    <div class="sidebar-item" data-page="referencias"><span class="icon">🌍</span>Referências mundiais</div>
+    <div class="sidebar-item" data-page="especialistas"><span class="icon">🤝</span>Especialistas p/ convidar</div>
+  </div>
+</nav>
+<!-- BLOCO_FIM: HTML_SIDEBAR -->
+
+<main class="main">
+
+<!-- BLOCO_INÍCIO: PAGINA_INICIO -->
+<div class="page active" id="page-inicio">
+  <div class="page-header">
+    <div class="page-title">Manual de Vendas Osasco Express</div>
+    <div class="page-subtitle">Do primeiro contato ao contrato assinado — passo a passo baseado em dados reais</div>
+  </div>
+
+  <div class="highlight-box" style="margin-bottom:20px;">
+    <div class="highlight-box-title">⚡ Para começar agora</div>
+    <p>Você tem um produto difícil de vender porque ele resolve um problema difícil. Dono de restaurante que já tomou caldo com entregador não confia fácil. Esse manual existe para que você — ou qualquer vendedor da equipe — saiba exatamente o que falar, quando falar, e como conduzir o cliente da desconfiança até a assinatura.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="metric-card">
+      <div class="metric-val red">27%</div>
+      <div class="metric-label">Do pedido vai para o iFood (plano entrega)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val red">R$ 66</div>
+      <div class="metric-label">Ticket médio delivery no Brasil (2024)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val green">~R$ 8–15</div>
+      <div class="metric-label">Taxa Osasco Express por corrida (real)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val green">0%</div>
+      <div class="metric-label">Comissão sobre vendas do restaurante</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">🗺️</span> O caminho completo</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-tag info">Prospecção</div>
+        <h4>Identificar o restaurante certo</h4>
+        <p>Não é qualquer restaurante. É o que tem ticket médio alto, canal próprio ou iFood próprio, e está sofrendo com entregador. Ver seção "Quem é o cliente certo".</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-tag info">Abordagem</div>
+        <h4>Primeiro contato — 30 segundos para não ser ignorado</h4>
+        <p>WhatsApp ou presencial. Objetivo único: conseguir 10 minutos de conversa. Não apresentar o serviço ainda.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num orange">3</div>
+      <div class="step-body">
+        <div class="step-tag warn">Diagnóstico</div>
+        <h4>Fazer o dono falar sobre a dor</h4>
+        <p>Perguntas certas que revelam o tamanho do problema. O cliente vende o produto pra você. Você só precisa ouvir.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num orange">4</div>
+      <div class="step-body">
+        <div class="step-tag warn">Qualificação</div>
+        <h4>Pedir a planilha de vendas</h4>
+        <p>O maior obstáculo da venda. O cliente não quer dar. Script específico para conseguir os dados dos últimos 30 dias.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num green">5</div>
+      <div class="step-body">
+        <div class="step-tag ok">Proposta</div>
+        <h4>Apresentar baseado nos dados reais do cliente</h4>
+        <p>Com a planilha em mãos, a proposta se escreve sozinha. Mostrar quanto ele perde hoje e quanto vai economizar.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num green">6</div>
+      <div class="step-body">
+        <div class="step-tag ok">Fechamento</div>
+        <h4>Contornar objeções e assinar</h4>
+        <p>As 5 objeções mais comuns com resposta pronta. O momento de fechar não é quando o cliente diz sim — é antes disso.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert green">
+    <span class="alert-icon">✅</span>
+    <span>Este manual é baseado em dados reais: taxas iFood 2025/2026, ticket médio do mercado, scripts validados na operação real da Osasco Express.</span>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_INICIO -->
+
+<!-- BLOCO_INÍCIO: PAGINA_CLIENTE_IDEAL -->
+<div class="page" id="page-cliente-ideal">
+  <div class="page-header">
+    <div class="page-title">🎯 Quem é o cliente certo</div>
+    <div class="page-subtitle">Não atire para todo lado. Cada abordagem errada custa tempo e queima credibilidade.</div>
+  </div>
+
+  <div class="highlight-box gold" style="margin-bottom:24px;">
+    <div class="highlight-box-title">🥩 O perfil que você busca</div>
+    <p>Restaurante com ticket médio <strong>acima de R$ 60 por pedido</strong>, que vende pelo canal próprio (WhatsApp, cardápio digital, iFood Plano Básico com entregador próprio) e que tem dor real com pontualidade, falta de entregador ou gestão do delivery. O dono precisa ter margem suficiente para pagar a nossa taxa sem sentir no bolso.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">✅</span> Perfis que FECHAM</div>
+
+  <div class="perfil-card green">
+    <div class="perfil-emoji">🍕</div>
+    <div class="perfil-info">
+      <h4>Pizzaria artesanal / gourmet</h4>
+      <p>Ticket médio R$ 80–150. Opera quinta a domingo. Pico intenso de pedidos. Sofre com falta de motoboy no fim de semana. Já tentou entregador próprio e se frustrou.</p>
+      <div class="perfil-tags">
+        <span class="perfil-tag yes">Ticket alto ✓</span>
+        <span class="perfil-tag yes">Volume previsível ✓</span>
+        <span class="perfil-tag yes">Dor clara ✓</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="perfil-card green">
+    <div class="perfil-emoji">🥩</div>
+    <div class="perfil-info">
+      <h4>Churrascaria / steakhouse delivery</h4>
+      <p>Pedido médio R$ 100–200. Cliente fiel, repete toda semana. Produto frágil — uma entrega atrasada ou mal feita prejudica a experiência e a avaliação. Valoriza qualidade acima de tudo.</p>
+      <div class="perfil-tags">
+        <span class="perfil-tag yes">Ticket muito alto ✓</span>
+        <span class="perfil-tag yes">Sensível à qualidade ✓</span>
+        <span class="perfil-tag yes">Paga pelo profissional ✓</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="perfil-card green">
+    <div class="perfil-emoji">🍣</div>
+    <div class="perfil-info">
+      <h4>Japonês / sushi premium</h4>
+      <p>Ticket médio R$ 90–180. Embalagem delicada. Cliente exige rapidez. Já está no iFood Plano Básico e quer manter entregador próprio mas sem dor de cabeça operacional.</p>
+      <div class="perfil-tags">
+        <span class="perfil-tag yes">Alta margem ✓</span>
+        <span class="perfil-tag yes">Canal próprio ✓</span>
+        <span class="perfil-tag yes">Exige padrão ✓</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="perfil-card blue">
+    <div class="perfil-emoji">🍔</div>
+    <div class="perfil-info">
+      <h4>Hamburgeria artesanal (volume médio-alto)</h4>
+      <p>Funciona bem se tiver ticket acima de R$ 55 e volume de 30+ pedidos/dia. Clientes jovens, pedem toda semana. Atraso destrói avaliação no iFood.</p>
+      <div class="perfil-tags">
+        <span class="perfil-tag yes">Volume ✓</span>
+        <span class="perfil-tag yes">Recorrência ✓</span>
+        <span class="perfil-tag">Analisar margem</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">❌</span> Perfis que NÃO fecham (ou fecham e dão problema)</div>
+
+  <div class="perfil-card red">
+    <div class="perfil-emoji">🥡</div>
+    <div class="perfil-info">
+      <h4>Marmitaria / comida a quilo delivery</h4>
+      <p>Ticket médio R$ 20–35. A nossa taxa de gestão representa uma fatia grande demais do pedido. Ou não consegue pagar ou abandona em 30 dias.</p>
+      <div class="perfil-tags">
+        <span class="perfil-tag no">Ticket baixo ✗</span>
+        <span class="perfil-tag no">Margem apertada ✗</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="perfil-card red">
+    <div class="perfil-emoji">🍟</div>
+    <div class="perfil-info">
+      <h4>Lanchonete de bairro / fast food simples</h4>
+      <p>Volume alto mas ticket baixo (R$ 25–40). Já usa iFood Entrega e deixa o app gerenciar tudo. Não vê valor em pagar taxa de gestão.</p>
+      <div class="perfil-tags">
+        <span class="perfil-tag no">Não qualificado ✗</span>
+        <span class="perfil-tag no">Não sente a dor ✗</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">🔍</span> Como encontrar esses restaurantes</div>
+
+  <div class="card">
+    <table>
+      <thead><tr><th>Canal</th><th>Como usar</th><th>Prioridade</th></tr></thead>
+      <tbody>
+        <tr><td><strong>iFood (como cliente)</strong></td><td>Filtre por "Mais Pedidos" na sua cidade. Restaurantes com 500+ pedidos/mês, ticket acima de R$ 60 e entrega própria são o alvo.</td><td><span class="td-tag" style="background:rgba(234,29,44,0.1);color:var(--red);">🔴 Alta</span></td></tr>
+        <tr><td><strong>Instagram e Google Maps</strong></td><td>Busque "pizzaria gourmet Osasco", "japonês delivery Osasco". Olhe os restaurantes com 100+ avaliações e preço médio alto.</td><td><span class="td-tag" style="background:rgba(234,29,44,0.1);color:var(--red);">🔴 Alta</span></td></tr>
+        <tr><td><strong>Indicação dos clientes atuais</strong></td><td>Todo cliente satisfeito conhece outros donos. Peça diretamente: "Me indica alguém que tá sofrendo com entregador?"</td><td><span class="td-tag" style="background:rgba(80,167,115,0.12);color:var(--green);">🟢 Altíssima</span></td></tr>
+        <tr><td><strong>Visita presencial</strong></td><td>Entre no restaurante como cliente. Observe o movimento. Se o dono está atendendo, é hora de falar.</td><td><span class="td-tag" style="background:rgba(255,122,0,0.12);color:var(--orange);">🟡 Média</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box orange">
+    <div class="highlight-box-title">⚠️ Regra de ouro de qualificação</div>
+    <p>Antes de qualquer abordagem, responda: <strong>esse restaurante consegue pagar R$ 799 por mês sem isso representar mais de 3% do faturamento?</strong> Se o faturamento estimado for abaixo de R$ 25.000/mês em delivery, provavelmente não é o cliente certo agora.</p>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_CLIENTE_IDEAL -->
+
+<!-- BLOCO_INÍCIO: PAGINA_MERCADO -->
+<div class="page" id="page-mercado">
+  <div class="page-header">
+    <div class="page-title">💰 O mercado e os números</div>
+    <div class="page-subtitle">Dados reais para usar na conversa de vendas e mostrar autoridade</div>
+  </div>
+
+  <div class="section-title"><span class="icon">📊</span> O que o restaurante paga hoje no iFood</div>
+  <div class="card">
+    <table>
+      <thead><tr><th>Plano iFood</th><th>Comissão sobre venda</th><th>Taxa pagamento online</th><th>Mensalidade</th><th>Total real</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Básico</strong> (entregador próprio)</td><td>12%</td><td>3,2%</td><td>R$ 110/mês</td><td><strong>~15% + R$ 110</strong></td></tr>
+        <tr><td><strong>Entrega</strong> (entregador iFood)</td><td>23%</td><td>3,2%</td><td>R$ 150/mês</td><td><strong>~27% + R$ 150</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box gold">
+    <div class="highlight-box-title">💡 Argumento de venda poderoso</div>
+    <p>Um restaurante que fatura <strong>R$ 50.000/mês em delivery</strong> pelo iFood Entrega está pagando <strong>R$ 13.500/mês só de comissão</strong>. Com a Osasco Express no Plano Básico do iFood, paga 12% de comissão (R$ 6.000) + nossa taxa de gestão (ex: R$ 1.599). <strong>Economia de quase R$ 6.000/mês.</strong> Apresente isso com os números reais do cliente.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">🎯</span> Ticket médio por segmento — o que compensa contratar</div>
+  <div class="card">
+    <table>
+      <thead><tr><th>Segmento</th><th>Ticket médio</th><th>Pedidos/mês (estimado)</th><th>Nossa taxa compensa?</th></tr></thead>
+      <tbody>
+        <tr><td>Pizzaria gourmet</td><td>R$ 80–150</td><td>400–1.000</td><td><span class="td-tag" style="background:rgba(80,167,115,0.12);color:var(--green);">Sim — muito</span></td></tr>
+        <tr><td>Japonês premium</td><td>R$ 90–180</td><td>300–800</td><td><span class="td-tag" style="background:rgba(80,167,115,0.12);color:var(--green);">Sim — muito</span></td></tr>
+        <tr><td>Hamburgeria artesanal</td><td>R$ 55–90</td><td>500–1.200</td><td><span class="td-tag" style="background:rgba(80,167,115,0.12);color:var(--green);">Sim</span></td></tr>
+        <tr><td>Churrascaria</td><td>R$ 100–200</td><td>200–500</td><td><span class="td-tag" style="background:rgba(80,167,115,0.12);color:var(--green);">Sim — muito</span></td></tr>
+        <tr><td>Comida italiana</td><td>R$ 70–120</td><td>300–700</td><td><span class="td-tag" style="background:rgba(80,167,115,0.12);color:var(--green);">Sim</span></td></tr>
+        <tr><td>Frutos do mar</td><td>R$ 87 (média nacional)</td><td>200–500</td><td><span class="td-tag" style="background:rgba(80,167,115,0.12);color:var(--green);">Sim</span></td></tr>
+        <tr><td>Marmitaria / kilo</td><td>R$ 20–35</td><td>500–1.000</td><td><span class="td-tag" style="background:rgba(234,29,44,0.1);color:var(--red);">Não</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-title"><span class="icon">💸</span> Por que restaurante com canal próprio é o melhor cliente</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num blue">1</div>
+      <div class="step-body">
+        <h4>Não paga comissão sobre venda</h4>
+        <p>No canal próprio (WhatsApp, cardápio digital), o restaurante fica com 100% do pedido. A nossa taxa de gestão se paga com a economia de não pagar 23% para o iFood em cada pedido.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num blue">2</div>
+      <div class="step-body">
+        <h4>Já sabe o valor de ter controle</h4>
+        <p>Quem investiu em canal próprio já entende que depender 100% de plataforma é ruim. Está pronto para pagar por solução que dê autonomia.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num blue">3</div>
+      <div class="step-body">
+        <h4>Já sofreu com entregador desorganizado</h4>
+        <p>Canal próprio sem estrutura de entrega é caos. Esse dono já perdeu avaliação, cliente e dinheiro. Ele está com a dor aberta.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_MERCADO -->
+
+<!-- BLOCO_INÍCIO: PAGINA_PRIMEIRO_CONTATO -->
+<div class="page" id="page-primeiro-contato">
+  <div class="page-header">
+    <div class="page-title">📲 Passo 1 — Primeiro contato</div>
+    <div class="page-subtitle">Objetivo único: conseguir 10 minutos de atenção real. Não apresente o serviço ainda.</div>
+  </div>
+
+  <div class="alert orange">
+    <span class="alert-icon">⚠️</span>
+    <span><strong>Erro mais comum:</strong> Apresentar o serviço no primeiro contato. O dono não conhece você. Ele não vai ouvir. Primeiro contato serve só para abrir porta.</span>
+  </div>
+
+  <div class="section-title"><span class="icon">📱</span> Via WhatsApp — primeira mensagem</div>
+
+  <div class="script-box">
+    <div class="script-box-label">💬 Script — Abordagem fria (WhatsApp)</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>Oi [Nome], tudo bem? Sou [Seu nome] da Osasco Express.
+
+Vi que vocês têm um volume bacana de entregas e queria entender como vocês estão gerenciando a parte logística hoje.
+
+Tenho uma pergunta rápida — posso mandar aqui?</p>
+  </div>
+
+  <div class="highlight-box blue">
+    <div class="highlight-box-title">Por que funciona</div>
+    <p>Você não apresentou nada. Pediu permissão para fazer UMA pergunta. Isso quebra a resistência automática de "não quero comprar nada". O cliente responde porque é uma pergunta, não uma venda.</p>
+  </div>
+
+  <div class="script-box">
+    <div class="script-box-label">💬 Script — Se o cliente responder "pode mandar"</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>Obrigado! Só queria saber: como vocês resolvem hoje quando falta entregador no pico? Vocês têm equipe própria ou usam plataforma?
+
+Pergunto porque vejo muita pizzaria/restaurante do nível de vocês perdendo pedido por isso, e queria entender se vale a gente conversar.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">🚶</span> Via presencial — no restaurante</div>
+
+  <div class="script-box">
+    <div class="script-box-label">🗣️ Script — Abordagem presencial (no balcão)</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>[Pede um café ou agua, faz pequeno pedido, observa o movimento]
+
+"Posso te fazer uma pergunta rápida? Eu trabalho com gestão logística de delivery aqui na região. Tô mapeando restaurantes que têm volume de entrega mas sofrem com a operação. Vocês têm entregador próprio?"
+
+[Deixe o dono falar]
+
+"Faz sentido eu te ligar essa semana pra mostrar como a gente funciona? São 10 minutos."</p>
+  </div>
+
+  <div class="section-title"><span class="icon">📋</span> Regras do primeiro contato</div>
+  <div class="card">
+    <table>
+      <thead><tr><th>Faça</th><th>Não faça</th></tr></thead>
+      <tbody>
+        <tr><td>✅ Pergunte antes de falar</td><td>❌ Apresente o serviço completo</td></tr>
+        <tr><td>✅ Demonstre que conhece o negócio deles</td><td>❌ Mande áudio longo ou texto grande</td></tr>
+        <tr><td>✅ Termine pedindo um próximo passo específico</td><td>❌ Diga "me add" ou "vou te mandar material"</td></tr>
+        <tr><td>✅ Mencione casos parecidos sem citar nome</td><td>❌ Fale em preço ainda</td></tr>
+        <tr><td>✅ Aborde no horário de menor movimento</td><td>❌ Apareça durante pico (12h, 19h–21h)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">⏱️ O que é "10 minutos de atenção real"</div>
+    <p>Não é reunião formal. É uma ligação, uma conversa no WhatsApp ou 10 minutos presencial <strong>após o pico</strong>. O objetivo é chegar no diagnóstico (próxima etapa). Se o dono deu atenção, você passou de fase.</p>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_PRIMEIRO_CONTATO -->
+
+<!-- BLOCO_INÍCIO: PAGINA_DIAGNOSTICO -->
+<div class="page" id="page-diagnostico">
+  <div class="page-header">
+    <div class="page-title">🩺 Passo 2 — Diagnóstico da dor</div>
+    <div class="page-subtitle">Faça o cliente falar. Quem fala mais na venda, perde. Você ouve, faz perguntas, anota.</div>
+  </div>
+
+  <div class="highlight-box purple">
+    <div class="highlight-box-title">🧠 Princípio de vendas consultiva (SPIN Selling)</div>
+    <p>Neil Rackham descobriu que os melhores vendedores <strong>perguntam 4x mais</strong> do que os medíocres. A sequência certa: Situação → Problema → Implicação → Necessidade de solução. O cliente chega sozinho à conclusão que precisa de você.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">❓</span> Perguntas de Situação — entender onde ele está</div>
+  <div class="accordion">
+    <div class="accordion-header">Como vocês estão operando a entrega hoje? <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Ouça sem interromper. Mapeie: tem entregador fixo? Usa iFood entrega? Faz pelo WhatsApp? Quantos pedidos por dia? Esse contexto é ouro para personalizar a proposta depois.</div>
+  </div>
+  <div class="accordion">
+    <div class="accordion-header">Quantos pedidos vocês fazem por dia, em média? <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Se ele não sabe de cabeça, já é um sinal de que não tem controle. Anote o número que ele der. Vai usar na proposta. Se disser "não sei ao certo", perfeito — peça a planilha depois.</div>
+  </div>
+  <div class="accordion">
+    <div class="accordion-header">Quais dias são os mais pesados para vocês? <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Fim de semana? Quinta? Isso mostra os pontos de dor. Um restaurante que sofre no fim de semana sem entregador é cliente perfeito para a Osasco Express.</div>
+  </div>
+
+  <div class="section-title"><span class="icon">💢</span> Perguntas de Problema — revelar a dor</div>
+  <div class="accordion">
+    <div class="accordion-header">Já tiveram algum problema com entregador que afetou a operação? <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Deixe ele contar. Não interrompa. Esse é o momento em que o cliente vende o produto pra você. Quanto mais detalhe ele der sobre o problema, mais fácil o fechamento.</div>
+  </div>
+  <div class="accordion">
+    <div class="accordion-header">Como vocês cobrem quando falta entregador? <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">A resposta vai revelar o caos. "Chamo no grupo", "eu mesmo vou entregar", "peço pra cozinha parar e ir". Qualquer dessas respostas é a porta de entrada da sua solução.</div>
+  </div>
+  <div class="accordion">
+    <div class="accordion-header">Já perderam pedido ou avaliação por problema de entrega? <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Avaliação negativa no iFood custa caro. Se o restaurante tem nota abaixo de 4.5, atraso de entrega é provavelmente o culpado. Pergunta simples que abre uma ferida real.</div>
+  </div>
+
+  <div class="section-title"><span class="icon">⚡</span> Perguntas de Implicação — ampliar a dor</div>
+  <div class="accordion">
+    <div class="accordion-header">Quanto vocês estimam que perderam no mês passado por problema de entrega? <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Poucos donos já calcularam isso. Ajude-o a fazer o cálculo na hora: pedido cancelado × ticket médio. R$ 80 × 5 cancelamentos = R$ 400/mês. R$ 400 × 12 = R$ 4.800/ano. O número real sempre choca.</div>
+  </div>
+  <div class="accordion">
+    <div class="accordion-header">Se vocês dobrarem o volume de pedidos hoje, a entrega consegue acompanhar? <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Questiona o crescimento. Se a resposta for "não", você acabou de mostrar que o problema de entrega é um teto para o negócio crescer. Isso é urgência real.</div>
+  </div>
+
+  <div class="section-title"><span class="icon">💡</span> Pergunta de Necessidade — o cliente pede a solução</div>
+  <div class="script-box">
+    <div class="script-box-label">🗣️ A pergunta que fecha o diagnóstico</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>"Se você tivesse uma empresa que garante entregador todo dia, com escala, tecnologia de rastreamento e relatório de tudo — sem você precisar gerenciar isso — o que mudaria na sua operação?"</p>
+  </div>
+  <div class="highlight-box green">
+    <div class="highlight-box-title">✅ O que acontece aqui</div>
+    <p>O cliente imagina o cenário ideal. Ele começa a descrever os benefícios do seu serviço com as palavras dele. Você só precisa confirmar que é exatamente isso que a Osasco Express entrega.</p>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_DIAGNOSTICO -->
+
+<!-- BLOCO_INÍCIO: PAGINA_PLANILHA -->
+<div class="page" id="page-planilha">
+  <div class="page-header">
+    <div class="page-title">📊 Passo 3 — A planilha de vendas</div>
+    <div class="page-subtitle">O maior obstáculo da venda. Sem dados, a proposta é chute. Com dados, é argumento.</div>
+  </div>
+
+  <div class="alert red">
+    <span class="alert-icon">🚨</span>
+    <span><strong>Por que o cliente resiste?</strong> Dono de restaurante está exausto. Dar dados sente como trabalho extra. Ele não confia ainda. E acha que você vai usar os dados para "empurrar" algo.</span>
+  </div>
+
+  <div class="section-title"><span class="icon">🎯</span> Por que você PRECISA da planilha</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Proposta personalizada = maior taxa de fechamento</h4>
+        <p>Proposta genérica converte menos. Proposta com os números reais do cliente mostra que você entende o negócio dele. Isso cria confiança.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Define qual plano contratar</h4>
+        <p>Sem os dados, você pode propor plano errado. Proposta do plano errado é objeção de preço garantida. Com os dados, você acerta na primeira.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Mostra quanto ele perde hoje</h4>
+        <p>Com os dados em mãos, você calcula quanto o cliente gasta com iFood hoje vs quanto pagaria com a Osasco Express. A economia se vende sozinha.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">💬</span> Como pedir a planilha</div>
+
+  <div class="script-box">
+    <div class="script-box-label">📱 Script — Pedindo os dados (WhatsApp)</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>"[Nome], quer que eu monte uma proposta real, com os seus números, mostrando quanto você pode economizar por mês?
+
+Pra isso, preciso de uma coisa só: os pedidos dos últimos 30 dias — data, quantidade e distância média das entregas.
+
+Mandei uma planilha pronta aqui — é só preencher, leva 10 minutos. Mas se preferir, me passa o acesso ao relatório do iFood que eu pego os dados direto."</p>
+  </div>
+
+  <div class="script-box">
+    <div class="script-box-label">🗣️ Script — Se ele falar "não tenho tempo pra isso"</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>"Entendo, [Nome]. Então me fala assim: em média, quantos pedidos vocês fazem por dia? E qual a distância média das entregas — menos de 5 km, ou vai mais longe?
+
+Com esses dois números já consigo montar uma estimativa pra você ver se faz sentido a gente continuar conversando."</p>
+  </div>
+
+  <div class="highlight-box blue">
+    <div class="highlight-box-title">🔑 A alternativa que funciona</div>
+    <p>Se o cliente não quer preencher planilha, peça <strong>apenas 2 números</strong>: pedidos/dia e distância média. Com isso já dá para fazer estimativa e agendar próxima conversa com proposta. Não trave a venda esperando dado perfeito.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">📋</span> O que fazer com os dados</div>
+  <div class="accordion">
+    <div class="accordion-header">Calcular a projeção mensal automaticamente <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">O sistema da Osasco Express (Proposta Inteligente OE) já faz isso. Cole os dados e o sistema indica o plano correto e estima o custo mensal completo com taxas por km e diárias.</div>
+  </div>
+  <div class="accordion">
+    <div class="accordion-header">Comparar com o que ele paga hoje <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Calcule: total de pedidos × ticket médio = faturamento. 23% desse valor = comissão iFood Entrega. Compare com: nossa taxa de gestão + custo de corridas. Quase sempre a Osasco Express sai mais barato.</div>
+  </div>
+  <div class="accordion">
+    <div class="accordion-header">Apresentar a proposta em 24h <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Velocidade cria credibilidade. Se você recebeu os dados hoje, amanhã você já manda a proposta. Isso mostra que a empresa é organizada — o oposto do que ele tem com entregador informal.</div>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_PLANILHA -->
+
+<!-- BLOCO_INÍCIO: PAGINA_APRESENTACAO -->
+<div class="page" id="page-apresentacao">
+  <div class="page-header">
+    <div class="page-title">🎤 Passo 4 — Apresentação da proposta</div>
+    <div class="page-subtitle">Você não está vendendo entregador. Está vendendo controle da operação e previsibilidade de lucro.</div>
+  </div>
+
+  <div class="highlight-box gold">
+    <div class="highlight-box-title">🧠 Como o dono de restaurante decide</div>
+    <p>Ele decide emocionalmente (cansaço, raiva do problema, sonho de crescer) e justifica racionalmente (números, economia, segurança). Primeiro mostre o benefício emocional. Depois confirme com número. Nessa ordem.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">🎯</span> Estrutura da apresentação (15 minutos)</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-tag info">2 min</div>
+        <h4>Recapitule o problema DELE</h4>
+        <p>"Você me falou que no fim de semana o pico chega a 60 pedidos e que já aconteceu de ficar sem entregador. Também me disse que perdeu uma avaliação por atraso no mês passado. Certo?"</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-tag info">3 min</div>
+        <h4>Mostre o custo real do problema</h4>
+        <p>"Com base nos seus dados: você faz ~800 pedidos/mês com ticket de R$ 90. Estimamos que você perde entre R$ 3.000 e R$ 5.000/mês em comissão + pedidos cancelados + perda de avaliação. Posso te mostrar o cálculo?"</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num green">3</div>
+      <div class="step-body">
+        <div class="step-tag ok">5 min</div>
+        <h4>Apresente os 4 pilares (sem jargão)</h4>
+        <p>Motoboys fixos com escala → sem preocupação. Tecnologia → você vê cada entrega em tempo real. Gestão operacional → sem você precisar gerenciar. Acompanhamento → a gente não some depois de fechar.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num green">4</div>
+      <div class="step-body">
+        <div class="step-tag ok">3 min</div>
+        <h4>Apresente o plano recomendado com os números</h4>
+        <p>Mostre a proposta personalizada: taxa de gestão + estimativa de custos de corrida. Compare com o que ele gasta hoje. Se tiver economia, mostre. Se não tiver, argumente pelo controle e pela previsibilidade.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num gold">5</div>
+      <div class="step-body">
+        <div class="step-tag warn">2 min</div>
+        <h4>Proposta de próximo passo concreto</h4>
+        <p>"Que tal a gente fazer os primeiros 30 dias com implantação completa, e você vê na prática como funciona? Posso te mandar o contrato hoje."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">⚡</span> Frases de alto impacto para usar na apresentação</div>
+
+  <div class="script-box">
+    <div class="script-box-label">💣 Frases que vendem</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>"Se o seu delivery depende de sorte pra funcionar, você ainda não tem operação. A gente resolve isso."
+
+"A gente não cuida só da entrega. A gente cuida do funcionamento do seu delivery."
+
+"Você não precisa de mais entregador. Você precisa de processo."
+
+"Enquanto você está resolvendo problema de motoboy, seu concorrente está recebendo avaliação boa."
+
+"O iFood está ficando com quase R$ 13.000 do seu faturamento todo mês. Parte desse dinheiro paga tudo que a Osasco Express faz por você."</p>
+  </div>
+
+  <div class="alert green">
+    <span class="alert-icon">✅</span>
+    <span><strong>Regra de ouro:</strong> Mostre a proposta na tela, no papel ou no WhatsApp. Nunca fale os números sem que o cliente veja. Número falado é esquecido. Número visto é lembrado.</span>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_APRESENTACAO -->
+
+<!-- BLOCO_INÍCIO: PAGINA_OBJECOES -->
+<div class="page" id="page-objecoes">
+  <div class="page-header">
+    <div class="page-title">🛡️ Passo 5 — Objeções</div>
+    <div class="page-subtitle">Objeção não é recusa. É pedido de mais informação. Cada objeção é uma segunda chance de fechar.</div>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">🧠 Antes de qualquer resposta</div>
+    <p>Nunca rebata imediatamente. Valide primeiro: <strong>"Entendo."</strong> ou <strong>"Faz todo sentido você falar isso."</strong> Isso relaxa o cliente e faz ele ouvir sua resposta. Vendedor que rebate direto parece desesperado.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">🚫</span> As 6 objeções mais comuns — resposta pronta</div>
+
+  <div class="accordion">
+    <div class="accordion-header">❌ "Tá caro." <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Entendo. Comparado com o quê? Porque se você tá pagando 23% de comissão pro iFood hoje, com o nosso plano você paga 12% + a nossa taxa de gestão. Na maioria dos casos, o cliente economiza. Posso te mostrar o cálculo com os seus números?"</p>
+      <br>
+      <p><strong>Se o cliente usa entregador informal:</strong> "O que você paga pro entregador hoje + o custo dos cancelamentos + o tempo que você gasta gerenciando isso — some tudo. A gente provavelmente custa igual ou menos, e entrega muito mais."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">❌ "Já tentei terceirizar entrega e não funcionou." <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Faz sentido. O que aconteceu especificamente? [Ouça]. Entendo — a maioria dos serviços que falham é porque não tem processo. A Osasco Express tem escala diária confirmada, relatório semanal e suporte em tempo real. O problema que você descreveu, a gente tem protocolo específico pra isso."</p>
+      <br>
+      <p>Se souber qual foi o problema dele, mencione exatamente o protocolo que resolve. Nunca fale "pode confiar" sem mostrar o processo.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">❌ "Vou pensar." <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Claro, sem problema. Mas me ajuda a entender — o que te faz querer pensar melhor? É o preço, é dúvida sobre como funciona, ou é questão de timing?"</p>
+      <br>
+      <p>Identifique a objeção real. "Vou pensar" é quase sempre uma objeção escondida. Quando ele falar, você responde a objeção real.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">❌ "Tenho entregador fixo que já conheço." <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Ótimo — e quando ele falta, o que acontece? [Ouça]. Veja bem, a gente não vem pra substituir quem funciona. A Osasco Express garante que quando ele não pode, tem alguém cobrindo. E quando a demanda cresce, a escala cresce junto. Isso você não tem hoje."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">❌ "Não quero contrato longo." <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "O contrato é de 12 meses, mas com aviso de 30 dias você pode encerrar. É o tempo que a gente precisa pra estruturar a operação direito — montar escala, integrar o sistema, ajustar a rota. Os primeiros 30 dias já mostram o resultado."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">❌ "Agora não é o momento." <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Entendo. Quando você acha que seria o momento ideal? [Ouça]. Só quero te contar que o tempo de implantação é de 5 dias úteis. Se o pico de vocês é o Dia dos Pais, por exemplo, você precisa começar pelo menos 2 semanas antes. Posso te ajudar a planejar isso?"</p>
+    </div>
+  </div>
+
+  <div class="highlight-box green">
+    <div class="highlight-box-title">✅ Regra de 3 Nãos</div>
+    <p>Pesquisa de vendas mostra que 80% dos fechamentos acontecem após o <strong>5° contato</strong>. Mas 92% dos vendedores desistem no 4°. Não abandone após a primeira negativa. Persista com elegância: uma tentativa por semana, sempre com nova informação ou nova angulação.</p>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_OBJECOES -->
+
+<!-- BLOCO_INÍCIO: PAGINA_FECHAMENTO -->
+<div class="page" id="page-fechamento">
+  <div class="page-header">
+    <div class="page-title">✅ Passo 6 — Fechamento</div>
+    <div class="page-subtitle">O fechamento não acontece no final. Ele começa no diagnóstico e chega aqui naturalmente.</div>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">🧠 O timing certo do fechamento</div>
+    <p>Não espere o cliente dizer "quero contratar". Ele raramente diz isso. Sinais de que está pronto: fez perguntas sobre como funciona operacionalmente, perguntou sobre prazo de início, pediu para ver o contrato, falou de problema específico que você respondeu bem.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">🎯</span> Técnicas de fechamento que funcionam</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num green">A</div>
+      <div class="step-body">
+        <div class="step-tag ok">Fechamento por próximo passo</div>
+        <h4>Assuma que o cliente vai fechar e pergunte sobre o início</h4>
+        <p>"Pra você começar semana que vem, preciso só da sua assinatura no contrato hoje. Você consegue assinar ainda essa semana?"</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num green">B</div>
+      <div class="step-body">
+        <div class="step-tag ok">Fechamento por alternativa</div>
+        <h4>Dê duas opções, ambas de fechamento</h4>
+        <p>"Você prefere começar pelo Plano Médio (R$ 1.100) já com consultoria de cardápio, ou começar pelo Básico (R$ 799) e ir avaliando?"</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">C</div>
+      <div class="step-body">
+        <div class="step-tag crit">Fechamento por urgência real</div>
+        <h4>Mostre o custo de não decidir</h4>
+        <p>"Cada semana que passa sem isso, você continua perdendo em torno de R$ 400 por cancelamento e gestão ineficiente. Em 30 dias sem decidir, você perdeu mais do que o valor da nossa taxa mensal."</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num blue">D</div>
+      <div class="step-body">
+        <div class="step-tag info">Fechamento por prova social</div>
+        <h4>Case do cliente parecido com ele</h4>
+        <p>"A gente tem uma pizzaria com volume parecido com o de vocês — eram 600 pedidos/mês. Depois de 60 dias com a Osasco Express, chegaram a 900 sem contratar mais ninguém, porque pararam de perder pedido por falta de entregador."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">📝</span> O momento da assinatura</div>
+
+  <div class="script-box">
+    <div class="script-box-label">🗣️ Script — Pedindo a assinatura</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>"Então [Nome], tá tudo alinhado. O contrato já tá pronto, é digital — você assina pelo celular agora mesmo. Assim que assinar, a gente já agenda a implantação pra essa semana. Pode assinar aí?"</p>
+  </div>
+
+  <div class="alert orange">
+    <span class="alert-icon">⚠️</span>
+    <span><strong>Depois de pedir a assinatura: fique em silêncio.</strong> O próximo que falar, perde. Deixe o cliente processar. Resist the urge to fill the silence.</span>
+  </div>
+
+  <div class="section-title"><span class="icon">🔁</span> Pós-fechamento — os primeiros 30 dias</div>
+  <div class="accordion">
+    <div class="accordion-header">Implantação em 5 dias úteis <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Integrar o sistema Foody Delivery com o Web Cardápio do cliente. Configurar escala de entregadores. Testar uma entrega completa antes do pico. O cliente precisa ver funcionando antes de acreditar de verdade.</div>
+  </div>
+  <div class="accordion">
+    <div class="accordion-header">Acompanhamento intenso na primeira semana <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Contato diário. Resolva qualquer problema antes que o cliente reclame. A primeira semana define se vai ser um cliente para 1 ano ou para 5 anos. O consultor precisa estar disponível.</div>
+  </div>
+  <div class="accordion">
+    <div class="accordion-header">Relatório de resultado no fim do mês <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">Mostre o número: quantas entregas feitas, taxa de cancelamento, comparação com mês anterior. Número concreto renova contrato sozinho e gera indicação.</div>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_FECHAMENTO -->
+
+<!-- BLOCO_INÍCIO: PAGINA_SCRIPTS -->
+<div class="page" id="page-scripts">
+  <div class="page-header">
+    <div class="page-title">💬 Scripts prontos</div>
+    <div class="page-subtitle">Copie, adapte ao seu jeito e use. Nunca recite roboticamente — entenda a lógica por trás de cada um.</div>
+  </div>
+
+  <div class="section-title"><span class="icon">📱</span> WhatsApp — Sequência completa</div>
+
+  <div class="script-box">
+    <div class="script-box-label">💬 Dia 1 — Abertura</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>Oi [Nome], tudo bem? Sou [Seu nome] da Osasco Express.
+
+Trabalho com gestão logística de delivery aqui em Osasco e região. Vi o restaurante de vocês e fiquei curioso: como vocês tão gerenciando as entregas hoje?
+
+Posso te fazer uma pergunta rápida?</p>
+  </div>
+
+  <div class="script-box">
+    <div class="script-box-label">💬 Dia 3 — Follow-up se não respondeu</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>Oi [Nome], mandei uma mensagem outro dia.
+
+Só queria compartilhar uma coisa: semana passada ajudamos uma pizzaria aqui em Osasco a não perder o pico de fim de semana quando o entregador faltou. O dono me falou que seria impossível ter feito isso sozinho.
+
+Se vocês já passaram por isso, vale a gente conversar 10 minutos. Quando seria melhor pra você?</p>
+  </div>
+
+  <div class="script-box">
+    <div class="script-box-label">💬 Enviando a proposta</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p">Oi [Nome]! Segue aqui a proposta que montei com base nos seus dados.
+
+Com o volume que vocês têm (~[X] pedidos/mês), o plano ideal é o [Nome do Plano] — R$ [valor]/mês.
+
+Estimativa de custo total com corridas: R$ [valor]/mês.
+
+Comparando com o que vocês pagam hoje no iFood, é [economia ou controle explícito].
+
+Posso te ligar em 15 minutos pra gente passar por tudo junto?</p>
+  </div>
+
+  <div class="script-box">
+    <div class="script-box-label">💬 Pós-proposta sem resposta (48h depois)</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>Oi [Nome], tudo bem? Vi que você recebeu a proposta.
+
+Sem compromisso — só queria saber: teve alguma dúvida? Posso ajustar alguma coisa pra fazer mais sentido pra vocês.
+
+Uma pergunta: o que te impediria de fechar hoje?</p>
+  </div>
+
+  <div class="section-title"><span class="icon">📞</span> Ligação — abertura</div>
+
+  <div class="script-box">
+    <div class="script-box-label">📞 Script de ligação fria</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>"Oi [Nome], tudo bem? Aqui é [Seu nome] da Osasco Express. Tenho 1 minuto?
+
+[Espera confirmação]
+
+Trabalho com logística de delivery aqui em Osasco. A gente cuida da entrega de restaurantes como o de vocês — motoboy, escala, rastreamento, tudo. Você tem delivery hoje?
+
+[Se sim] Perfeito. Vocês usam entregador próprio ou iFood entrega?
+
+[Ouvir e fazer próxima pergunta]"</p>
+  </div>
+
+  <div class="section-title"><span class="icon">🤝</span> Presencial — no estabelecimento</div>
+
+  <div class="script-box">
+    <div class="script-box-label">🏪 Script — Visita presencial (entrada)</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>[Entra no restaurante fora do horário de pico — preferencialmente entre 14h e 17h]
+
+"Boa tarde. Posso falar um minutinho com o responsável?
+
+[Quando vier] Oi, sou [Nome] da Osasco Express. A gente cuida de logística de delivery pra restaurantes aqui na região. Tenho uma pergunta rápida — como vocês tão gerenciando as entregas hoje?
+
+[Ouça e faça diagnóstico]
+
+Se fizer sentido, posso voltar essa semana com uma proposta baseada nos dados de vocês. Quando seria melhor?"</p>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_SCRIPTS -->
+
+<!-- BLOCO_INÍCIO: PAGINA_PSICOLOGIA -->
+<div class="page" id="page-psicologia">
+  <div class="page-header">
+    <div class="page-title">🧠 Psicologia da venda</div>
+    <div class="page-subtitle">Os princípios que fazem o cliente se sentir seguro para avançar — baseados em ciência real.</div>
+  </div>
+
+  <div class="highlight-box purple">
+    <div class="highlight-box-title">🔬 A ciência por trás do "sim"</div>
+    <p>Donos de restaurante que sofreram com entregador ruim têm <strong>alta resistência</strong> para qualquer solução de delivery. O cérebro deles ativou o modo de proteção. Sua venda precisa primeiro desativar essa resistência — isso é psicologia, não argumento.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">🛡️</span> Como criar segurança para o cliente avançar</div>
+
+  <div class="accordion">
+    <div class="accordion-header">1. Validação antes de qualquer argumento <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p>Antes de oferecer solução, valide a dor com força: <em>"Entendo. Você perdeu dinheiro e tempo com isso. Isso é frustrante mesmo."</em></p>
+      <p style="margin-top:8px">Quando o cliente se sente compreendido, ele para de se defender. Só então consegue ouvir sua proposta. Isso é <strong>empatia funcional</strong> — não é só ser simpático, é uma técnica de vendas comprovada.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">2. Reciprocidade — dar antes de pedir <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p>Ofereça algo de valor antes de pedir o contrato. Pode ser: análise gratuita dos dados, cálculo de quanto ele perde com iFood, diagnóstico da operação em 30 minutos.</p>
+      <p style="margin-top:8px">Robert Cialdini (autor de Influence) demonstrou que dar algo cria obrigação psicológica de reciprocidade. O cliente se sente mais inclinado a fechar quando já recebeu valor real.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">3. Prova social — "outros como você já fazem" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p>Mencione clientes parecidos com o prospect (sem dar nome se não autorizado): <em>"Temos uma pizzaria em Osasco com 700 pedidos/mês que passou por exatamente isso..."</em></p>
+      <p style="margin-top:8px">O cérebro humano usa o comportamento dos outros como atalho para decidir. Se "alguém parecido comigo" já fez e funcionou, o risco percebido cai.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">4. Contraste — mostrar o custo do problema atual <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p>Antes de revelar o preço da sua solução, mostre o custo do problema: <em>"Você paga ~R$ 13.000/mês de comissão para o iFood."</em> Depois mostre o seu preço. O contraste faz o preço parecer pequeno.</p>
+      <p style="margin-top:8px">Isso é o <strong>efeito âncora</strong>. O primeiro número que o cliente vê define a referência de "caro" ou "barato".</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">5. Escassez real — não inventada <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p>Se você tem capacidade limitada de atender novos clientes (o que é verdade — cada novo cliente exige entregadores e gestão), use isso: <em>"Só consigo abrir mais uma operação nova esse mês por conta da escala de entregadores."</em></p>
+      <p style="margin-top:8px">Escassez verdadeira cria urgência. Escassez inventada destrói confiança quando descoberta.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">6. Autoridade — mostrar que você sabe mais que ele sobre o problema <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p>Mostre dados: <em>"Uma pesquisa recente mostra que delivery gourmet tem ticket médio 32% maior que restaurante presencial. Isso significa que cada entrega perdida custa mais pra você do que pra um fast food."</em></p>
+      <p style="margin-top:8px">Quem tem dado tem autoridade. Autoridade gera confiança. Confiança fecha contrato.</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">💡</span> O que fazer quando o cliente está com medo</div>
+
+  <div class="card">
+    <p style="font-size:13px;line-height:1.8;color:var(--dark);">
+      Dono de restaurante que já foi "queimado" por entregador informal ou empresa que sumiu está em modo de autodefesa. Os sinais são: respostas curtas, muitas perguntas técnicas, pedir detalhes sobre o contrato logo no início.
+      <br><br>
+      <strong>O que fazer:</strong> Reduza o risco percebido. Ofereça: começar com período de teste, contrato com cláusula de rescisão simples, visita presencial à operação, referência de outro cliente para falar diretamente.
+      <br><br>
+      <strong>O que NÃO fazer:</strong> Pressionar, dar desconto sem ser pedido (sinaliza desespero), falar mal de concorrentes, prometer o que não pode cumprir.
+    </p>
+  </div>
+
+  <div class="highlight-box blue">
+    <div class="highlight-box-title">📚 Base teórica — para aprofundar</div>
+    <p><strong>SPIN Selling</strong> (Neil Rackham) — perguntas que fecham venda sem pressão. <strong>Influence</strong> (Robert Cialdini) — os 6 princípios da persuasão. <strong>The Challenger Sale</strong> (Matthew Dixon) — ensinar o cliente algo que ele não sabia. <strong>Never Split the Difference</strong> (Chris Voss) — negociação com técnicas do FBI, aplicadas em vendas.</p>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_PSICOLOGIA -->
+
+<!-- BLOCO_INÍCIO: PAGINA_REFERENCIAS -->
+<div class="page" id="page-referencias">
+  <div class="page-header">
+    <div class="page-title">🌍 Referências mundiais</div>
+    <div class="page-subtitle">Quem você deve estudar para vender melhor — não é motivação. É técnica de elite.</div>
+  </div>
+
+  <div class="section-title"><span class="icon">🏆</span> Estrategistas de vendas — os que definem o padrão</div>
+
+  <div class="expert-grid">
+    <div class="expert-card">
+      <div class="expert-name">Neil Rackham</div>
+      <div class="expert-role">Criador do SPIN Selling</div>
+      <div class="expert-desc">Pesquisou 35.000 ligações de vendas durante 12 anos. Descobriu que os melhores vendedores perguntam mais e falam menos. Criou o SPIN (Situação, Problema, Implicação, Necessidade) — o método de vendas B2B mais validado do mundo.</div>
+      <div class="expert-why">📖 Livro: SPIN Selling. Aplicação direta: todas as perguntas da seção de Diagnóstico deste manual são baseadas no método SPIN.</div>
+    </div>
+
+    <div class="expert-card blue">
+      <div class="expert-name">Robert Cialdini</div>
+      <div class="expert-role">Psicólogo — Os 6 Princípios da Influência</div>
+      <div class="expert-desc">Professor de psicologia da ASU. Passou anos observando vendedores reais. Identificou os 6 gatilhos que levam pessoas a dizer sim: reciprocidade, comprometimento, prova social, autoridade, simpatia e escassez.</div>
+      <div class="expert-why">📖 Livro: Influence. Aplicação direta: toda a seção de Psicologia deste manual é estruturada nos princípios de Cialdini.</div>
+    </div>
+
+    <div class="expert-card gold">
+      <div class="expert-name">Aaron Ross</div>
+      <div class="expert-role">Receita Previsível — Salesforce</div>
+      <div class="expert-desc">Montou o time de prospecção outbound da Salesforce e gerou US$ 100 milhões de receita nova. Criou o conceito de separar quem prospecta de quem fecha. Método usado por startups e grandes empresas no mundo todo.</div>
+      <div class="expert-why">📖 Livro: Predictable Revenue. Aplicação: quando a Osasco Express quiser escalar vendas com time próprio.</div>
+    </div>
+
+    <div class="expert-card purple">
+      <div class="expert-name">Chris Voss</div>
+      <div class="expert-role">Negociação — Ex-FBI</div>
+      <div class="expert-desc">Negociador de reféns do FBI por 24 anos. Descobriu que as melhores técnicas de negociação são baseadas em empatia e escuta — não em pressão. Seu método funciona especialmente quando o cliente está com medo ou resistência alta.</div>
+      <div class="expert-why">📖 Livro: Never Split the Difference. Aplicação direta: como tratar objeções de clientes que já foram queimados antes.</div>
+    </div>
+
+    <div class="expert-card green">
+      <div class="expert-name">Matthew Dixon</div>
+      <div class="expert-role">The Challenger Sale</div>
+      <div class="expert-desc">Descobriu que os melhores vendedores não são os mais simpáticos — são os que desafiam o cliente com uma visão que ele ainda não tinha. Ensinam o cliente algo sobre o próprio negócio antes de vender.</div>
+      <div class="expert-why">📖 Livro: The Challenger Sale. Aplicação: quando você mostra ao dono quanto ele perde com iFood antes de apresentar o produto.</div>
+    </div>
+
+    <div class="expert-card">
+      <div class="expert-name">Joe Girard</div>
+      <div class="expert-role">O maior vendedor do mundo (Guinness)</div>
+      <div class="expert-desc">Vendeu 13.001 carros sozinho em 15 anos — recorde mundial. Seu método: relacionamento + follow-up sistemático + fazer o cliente se sentir o mais importante. Enviava cartão para cada cliente todo mês do ano.</div>
+      <div class="expert-why">🇧🇷 Aplicação prática: follow-up sistemático por WhatsApp, como descrito na seção de Scripts deste manual.</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">🇧🇷</span> Brasil — Palestrantes que você pode contratar</div>
+
+  <div class="expert-grid">
+    <div class="expert-card blue">
+      <div class="expert-name">Diego Maia</div>
+      <div class="expert-role">Palestrante de vendas mais contratado do Brasil</div>
+      <div class="expert-desc">Mais de 1.600 palestras. Programas em rádio FM em todo o Brasil. Foco em vendas com integridade e estratégia. Linguagem direta para times comerciais de qualquer nível.</div>
+      <div class="expert-why">💡 Por que convidar: experiência ampla com diferentes segmentos, incluindo serviços B2B.</div>
+    </div>
+
+    <div class="expert-card">
+      <div class="expert-name">Thiago Concer</div>
+      <div class="expert-role">Criador do movimento #OSV — Orgulho de Ser Vendedor</div>
+      <div class="expert-desc">Maior ecossistema de educação em vendas do Brasil (Sales Clube + Universidade OSV). Método prático e replicável. Treinou times de centenas de empresas.</div>
+      <div class="expert-why">💡 Por que convidar: metodologia sistematizável — ideal para treinar o time de vendas da Osasco Express.</div>
+    </div>
+
+    <div class="expert-card gold">
+      <div class="expert-name">Jordão</div>
+      <div class="expert-role">35 anos em vendas B2B e B2C</div>
+      <div class="expert-desc">Atuou em empresas com faturamentos bilionários (Brasoftware, Tech Data, B4B). Especilista em construir times de alta performance. Método autoral com foco em consistência.</div>
+      <div class="expert-why">💡 Por que convidar: experiência em montar operação comercial do zero — relevante para estruturar o time de vendas da OE.</div>
+    </div>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_REFERENCIAS -->
+
+<!-- BLOCO_INÍCIO: PAGINA_ESPECIALISTAS -->
+<div class="page" id="page-especialistas">
+  <div class="page-header">
+    <div class="page-title">🤝 Especialistas para convidar</div>
+    <div class="page-subtitle">Quem pode ajudar a Osasco Express a vender melhor — com perfil, papel e como abordar cada um.</div>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">🎯 A estratégia de convidar especialistas</div>
+    <p>Não se trata de contratar consultoria cara. É trazer pessoas que já resolveram um problema específico parecido com o seu, para uma sessão prática que gera resultado concreto. O formato ideal: 2h de diagnóstico + workshop de 4h + 30 dias de acompanhamento leve.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">🧠</span> Especialista 1 — Psicólogo de vendas e comportamento</div>
+
+  <div class="card">
+    <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+      <div style="font-size:40px;">🧑‍⚕️</div>
+      <div style="flex:1;min-width:200px;">
+        <h4 style="font-size:15px;font-weight:700;color:var(--dark);">Perfil buscado: Psicólogo comportamental com experiência em vendas</h4>
+        <p style="font-size:13px;color:var(--gray3);margin-top:6px;line-height:1.7;">Especialista em psicologia do comportamento do consumidor, gestão emocional do vendedor e criação de confiança em relacionamentos comerciais. Não é terapeuta — é alguém que entende como o cérebro do dono de restaurante toma decisão de compra.</p>
+      </div>
+    </div>
+    <div class="section-title" style="margin-top:16px;"><span class="icon">📋</span> O que ele vai fazer</div>
+    <div class="steps" style="margin-top:8px;">
+      <div class="step">
+        <div class="step-num blue">1</div>
+        <div class="step-body">
+          <h4>Mapear o perfil emocional do cliente-alvo</h4>
+          <p>O dono de restaurante exausto com entregador tem padrão de comportamento específico. O psicólogo ajuda a montar o perfil e criar abordagem que não ativa resistência.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">2</div>
+        <div class="step-body">
+          <h4>Treinar o time em escuta ativa e empatia funcional</h4>
+          <p>Não é simpatia vaga. É técnica de comunicação que faz o cliente se sentir compreendido antes de ouvir qualquer argumento de venda.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">3</div>
+        <div class="step-body">
+          <h4>Trabalhar a gestão emocional do vendedor</h4>
+          <p>Lidar com rejeição, não desistir na 3ª negativa, controlar ansiedade no momento do fechamento. Isso é o que diferencia vendedor mediano de vendedor consistente.</p>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box blue" style="margin-top:8px;">
+      <div class="highlight-box-title">Como encontrar esse especialista</div>
+      <p>Busque: "psicólogo organizacional vendas São Paulo", "coach de vendas psicologia comportamental", especialistas em <strong>neurovendas</strong> (campo que une neurociência e vendas). Referências: Tiago Alves (CEO Valor Corporativo — neurovendas B2B), Paula Hernandez (comportamento e performance em vendas).</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">🚀</span> Especialista 2 — Growth / Vendas para restaurantes</div>
+
+  <div class="card">
+    <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+      <div style="font-size:40px;">📈</div>
+      <div style="flex:1;min-width:200px;">
+        <h4 style="font-size:15px;font-weight:700;color:var(--dark);">Perfil buscado: Especialista em vendas B2B para foodservice</h4>
+        <p style="font-size:13px;color:var(--gray3);margin-top:6px;line-height:1.7;">Alguém que já vendeu serviço ou produto para dono de restaurante em escala. Conhece a linguagem, o timing (não vá no pico), a resistência típica, e como construir funil de vendas para esse segmento.</p>
+      </div>
+    </div>
+    <div class="section-title" style="margin-top:16px;"><span class="icon">📋</span> O que ele vai fazer</div>
+    <div class="steps" style="margin-top:8px;">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Montar o playbook de prospecção</h4>
+          <p>Como mapear os restaurantes certos, sequência de contatos, cadência de follow-up. Transforma a prospecção em processo replicável para qualquer vendedor da equipe.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Definir metas e indicadores comerciais</h4>
+          <p>Quantas abordagens por semana, taxa de conversão esperada, tempo médio de ciclo de venda, meta de receita mensal. Sem isso, não dá para saber se o time está indo bem ou mal.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Treinar o primeiro vendedor da equipe</h4>
+          <p>Acompanhar nas primeiras 10 abordagens, dar feedback específico, ajustar o script com base nas rejeições reais que aparecerem no campo.</p>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top:8px;">
+      <div class="highlight-box-title">Como encontrar esse especialista</div>
+      <p>Busque por: ex-gerente comercial de empresa de tecnologia para restaurantes (ex: iFood, Linx, Saipos, Goomer), especialistas em "vendas para foodservice" ou "sales para restaurantes". LinkedIn é o melhor canal. Busque perfis com experiência em vender software ou serviço B2B para food.</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">📅</span> Formato recomendado de colaboração</div>
+
+  <div class="card">
+    <table>
+      <thead><tr><th>Etapa</th><th>Formato</th><th>Duração</th><th>Objetivo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sessão de diagnóstico</strong></td><td>Reunião presencial ou online</td><td>2 horas</td><td>Especialista entende o processo atual e aponta os 3 maiores gargalos</td></tr>
+        <tr><td><strong>Workshop prático</strong></td><td>Presencial — com roleplay</td><td>4 horas</td><td>Co-construção do playbook e script de vendas com simulação de abordagem real</td></tr>
+        <tr><td><strong>Acompanhamento em campo</strong></td><td>Online (calls semanais)</td><td>30 dias</td><td>Revisão de abordagens reais, ajuste de script, análise dos indicadores</td></tr>
+        <tr><td><strong>Revisão de resultado</strong></td><td>Reunião final</td><td>1 hora</td><td>Comparar antes e depois, definir próximos passos</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert orange">
+    <span class="alert-icon">⚠️</span>
+    <span><strong>Critério inegociável:</strong> O especialista que você convidar precisa falar a língua do dono de restaurante — direto, sem jargão de startup, sem PowerPoint cheio de framework. Quem nunca vendeu para pequeno empresário vai trazer teoria que não funciona no campo.</span>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_ESPECIALISTAS -->
+
+</main>
+</div>
+
+
+<!-- BLOCO_INÍCIO: PAGINA_FUNIL -->
+<div class="page" id="page-funil">
+  <div class="page-header">
+    <div class="page-title">📐 Funil de vendas + KPIs</div>
+    <div class="page-subtitle">Onde você está, o que medir, o que fazer quando trava em cada fase.</div>
+  </div>
+
+  <div class="highlight-box gold">
+    <div class="highlight-box-title">🎯 Meta base de referência</div>
+    <p>Para fechar <strong>4 novos clientes por mês</strong>, você precisa de: 80 abordagens → 24 conversas → 12 diagnósticos → 6 propostas → 4 fechamentos. Isso é taxa de conversão de 5% no topo. Realista para produto B2B de serviço com ticket alto.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">🏗️</span> As 6 etapas do funil — o que é cada uma</div>
+
+  <div class="card" style="overflow-x:auto;">
+    <table>
+      <thead><tr><th>Etapa</th><th>O que é</th><th>Meta semanal</th><th>Tempo médio</th><th>Critério de avanço</th></tr></thead>
+      <tbody>
+        <tr><td><strong>🔍 Prospecção</strong></td><td>Identificar restaurante com perfil certo</td><td>20 restaurantes mapeados</td><td>—</td><td>Tem ticket estimado acima de R$60, tem delivery, tem dor visível</td></tr>
+        <tr><td><strong>📲 Abordagem</strong></td><td>Primeiro contato (WA ou presencial)</td><td>20 abordagens</td><td>Dia 1</td><td>Respondeu e não recusou de imediato</td></tr>
+        <tr><td><strong>🩺 Diagnóstico</strong></td><td>Conversa de 10–20 min revelando a dor</td><td>6 diagnósticos</td><td>Dia 1–5</td><td>Dono falou sobre problema real com entrega</td></tr>
+        <tr><td><strong>📊 Qualificação</strong></td><td>Pegar dados (planilha ou estimativa)</td><td>4 qualificados</td><td>Dia 3–10</td><td>Tem os dados mínimos para gerar proposta</td></tr>
+        <tr><td><strong>🎤 Proposta</strong></td><td>Apresentar proposta personalizada</td><td>3 propostas</td><td>Dia 5–14</td><td>Cliente recebeu e disse "vou analisar" ou fez perguntas</td></tr>
+        <tr><td><strong>✅ Fechamento</strong></td><td>Contrato assinado</td><td>1 fechamento</td><td>Dia 7–21</td><td>Contrato assinado + pagamento confirmado</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-title"><span class="icon">📊</span> KPIs semanais — o que acompanhar</div>
+
+  <div class="card-grid">
+    <div class="metric-card">
+      <div class="metric-val red" id="kpi-abordagens">20</div>
+      <div class="metric-label">Abordagens / semana (meta)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val" style="color:var(--orange)">30%</div>
+      <div class="metric-label">Taxa resposta → conversa</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val" style="color:var(--blue)">50%</div>
+      <div class="metric-label">Taxa conversa → diagnóstico</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val green">35%</div>
+      <div class="metric-label">Taxa proposta → fechamento</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">🚨</span> Onde o funil trava — o que fazer</div>
+
+  <div class="accordion">
+    <div class="accordion-header">🔴 Trava na Abordagem — ninguém responde <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Causa mais comum:</strong> mensagem muito longa, apresentando o serviço logo de cara, horário errado (abordagem durante pico).</p>
+      <p style="margin-top:8px"><strong>O que fazer:</strong> Encurtar para 2 linhas. Usar pergunta no final. Abordagem presencial em horário de baixo movimento (14h–17h). Mudar o canal — se WA não responde, tente presencial.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">🔴 Trava no Diagnóstico — dono não quer conversar <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Causa mais comum:</strong> Vendedor está tentando vender no diagnóstico. Dono percebe e fecha.</p>
+      <p style="margin-top:8px"><strong>O que fazer:</strong> Diagnóstico é 100% perguntas. Zero argumento de venda. Se você falou mais de 30% do tempo, errou. Refaça com foco em ouvir.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">🔴 Trava na Qualificação — cliente não manda os dados <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Causa mais comum:</strong> Pedido da planilha parece muito trabalho. Cliente não viu valor suficiente ainda.</p>
+      <p style="margin-top:8px"><strong>O que fazer:</strong> Reduzir o pedido para 2 números (pedidos/dia + distância média). Gerar proposta estimada com esses dados. Apresentar e depois pedir refinamento.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">🔴 Trava na Proposta — cliente "sumiu" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Causa mais comum:</strong> Proposta enviada sem agendamento de follow-up. Cliente leu, não entendeu, não perguntou, esqueceu.</p>
+      <p style="margin-top:8px"><strong>O que fazer:</strong> Nunca envie proposta sem agendar a call de apresentação. Proposta + call na mesma hora = taxa de conversão 3x maior. Se já enviou e sumiu: follow-up com pergunta direta — "O que te impediu de fechar?"</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">🔴 Trava no Fechamento — fica no "vou pensar" eterno <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Causa mais comum:</strong> Objeção real não foi identificada. Cliente tem dúvida que não falou.</p>
+      <p style="margin-top:8px"><strong>O que fazer:</strong> Pergunta direta: "O que te impede de fechar hoje?" Silêncio depois da pergunta. Se falar "preço", mostre a comparação. Se falar "não sei", peça: "O que você precisaria ver para ter certeza?"</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">📅</span> Cadência de follow-up — o cronograma de contatos</div>
+
+  <div class="card">
+    <table>
+      <thead><tr><th>Dia</th><th>Ação</th><th>Canal</th><th>Objetivo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dia 1</strong></td><td>Primeiro contato</td><td>WhatsApp</td><td>Conseguir resposta</td></tr>
+        <tr><td><strong>Dia 3</strong></td><td>Follow-up se não respondeu</td><td>WhatsApp</td><td>Reabrir conversa com novo ângulo (case, dado)</td></tr>
+        <tr><td><strong>Dia 5</strong></td><td>Diagnóstico</td><td>Call ou presencial</td><td>Revelar a dor real</td></tr>
+        <tr><td><strong>Dia 7</strong></td><td>Pedir os dados</td><td>WhatsApp</td><td>Qualificar para proposta</td></tr>
+        <tr><td><strong>Dia 10</strong></td><td>Enviar proposta + agendar call</td><td>WhatsApp + ligação</td><td>Apresentar proposta ao vivo</td></tr>
+        <tr><td><strong>Dia 12</strong></td><td>Call de apresentação</td><td>Vídeo/presencial</td><td>Tirar dúvidas e pedir fechamento</td></tr>
+        <tr><td><strong>Dia 14</strong></td><td>Follow-up pós-call</td><td>WhatsApp</td><td>Identificar objeção real</td></tr>
+        <tr><td><strong>Dia 21</strong></td><td>Tentativa final</td><td>WhatsApp + ligação</td><td>Última oferta ou encerrar ciclo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box blue">
+    <div class="highlight-box-title">🔑 Regra do ciclo de venda</div>
+    <p>Se passou de 21 dias sem avanço, mude a abordagem — não abandone. Coloque em "maturação": contato a cada 30 dias com novo dado ou case. Muitos fechamentos acontecem no 2° ou 3° mês.</p>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_FUNIL -->
+
+<!-- BLOCO_INÍCIO: PAGINA_ROTEIRO_CALL -->
+<div class="page" id="page-roteiro-call">
+  <div class="page-header">
+    <div class="page-title">📞 Roteiro da call (45 minutos)</div>
+    <div class="page-subtitle">Do oi ao próximo passo concreto — cada minuto tem um objetivo. Sem improvisar.</div>
+  </div>
+
+  <div class="alert blue">
+    <span class="alert-icon">📌</span>
+    <span>Esse roteiro serve para call por vídeo, ligação ou reunião presencial. Adapte o tempo se a conversa for mais curta — os blocos são proporcionais.</span>
+  </div>
+
+  <div class="section-title"><span class="icon">⏱️</span> Os 7 blocos da call</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num" style="background:#6B7280;font-size:11px;">0–3</div>
+      <div class="step-body">
+        <div class="step-tag info">Abertura — 3 min</div>
+        <h4>Quebra-gelo + agenda da call</h4>
+        <p>Agradeça o tempo. Diga o que vai acontecer. Peça confirmação do tempo disponível.</p>
+        <div class="script-box" style="margin-top:10px;">
+          <div class="script-box-label">🗣️ Fala</div>
+          <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+          <p>"Obrigado por separar esse tempo, [Nome]. A ideia hoje é simples: eu quero entender como vocês estão operando hoje, te mostrar como a Osasco Express funciona, e a gente decide juntos se faz sentido. Tem umas 45 minutos?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num" style="background:var(--orange);font-size:11px;">3–15</div>
+      <div class="step-body">
+        <div class="step-tag warn">Diagnóstico — 12 min</div>
+        <h4>Perguntas SPIN — o dono fala, você ouve e anota</h4>
+        <p>Esta é a parte mais importante da call. Se você falar mais de 30% do tempo aqui, está errado. Use as perguntas da seção Diagnóstico deste manual.</p>
+        <div class="highlight-box orange" style="margin-top:10px;">
+          <div class="highlight-box-title">Sequência de perguntas recomendada</div>
+          <p>1. "Como vocês tão operando a entrega hoje?"<br>2. "Quantos pedidos em média por dia?"<br>3. "Quais dias são mais pesados?"<br>4. "Já tiveram problema com entregador que afetou a operação?"<br>5. "O que acontece quando falta entregador?"<br>6. "Já perderam avaliação ou pedido por isso?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num" style="background:var(--red);font-size:11px;">15–20</div>
+      <div class="step-body">
+        <div class="step-tag crit">Custo do problema — 5 min</div>
+        <h4>Calcule ao vivo o custo do que ele está perdendo</h4>
+        <p>Com os dados que ele deu, faça o cálculo em voz alta. Isso cria impacto emocional e ancora o valor da sua solução.</p>
+        <div class="script-box" style="margin-top:10px;">
+          <div class="script-box-label">🗣️ Fala</div>
+          <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+          <p>"Você me falou que faz uns [X] pedidos por dia, com ticket de uns [R$Y]. No mês, isso é uns [Z] pedidos. Se você usa o iFood Entrega, 23% de cada pedido vai pro app — isso é uns R$ [valor] só de comissão por mês.
+
+Fora os cancelamentos que você mencionou — cada um desses vale [ticket médio]. Em 5 cancelamentos por semana, você perde uns R$ [valor] por mês só nisso.
+
+Esse dinheiro paga o serviço da Osasco Express e ainda sobra."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num" style="background:var(--blue);font-size:11px;">20–30</div>
+      <div class="step-body">
+        <div class="step-tag info">Apresentação — 10 min</div>
+        <h4>Os 4 pilares + o plano recomendado</h4>
+        <p>Mostre a proposta na tela (compartilhe). Explique cada pilar em 1 frase. Apresente o plano com os números calculados. Não leia — explique.</p>
+        <div class="highlight-box blue" style="margin-top:10px;">
+          <div class="highlight-box-title">Ordem de apresentação</div>
+          <p>1. Logística (motoboys fixos com escala) → resolve falta<br>2. Tecnologia (app + rastreamento) → resolve caos<br>3. Gestão operacional (relatório semanal) → resolve invisibilidade<br>4. Acompanhamento consultivo → resolve abandono pós-venda<br><br>Depois: "Com base nos seus dados, o plano ideal para vocês é o [Nome] — R$ [valor]/mês. Vou te mostrar o que isso representa."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num" style="background:var(--green);font-size:11px;">30–38</div>
+      <div class="step-body">
+        <div class="step-tag ok">Perguntas e objeções — 8 min</div>
+        <h4>Silêncio estratégico + resposta às dúvidas</h4>
+        <p>Depois de apresentar o plano, fique em silêncio por 5 segundos. Deixe o cliente processar. Quando ele falar, ouça completamente antes de responder. Use a seção Objeções deste manual.</p>
+        <div class="script-box" style="margin-top:10px;">
+          <div class="script-box-label">🗣️ Fala pós-apresentação</div>
+          <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+          <p>"O que você acha? Faz sentido pra vocês?"
+
+[Silêncio. Aguarde o cliente falar.]</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num" style="background:var(--green);font-size:11px;">38–43</div>
+      <div class="step-body">
+        <div class="step-tag ok">Fechamento tentativa 1 — 5 min</div>
+        <h4>Pedir o próximo passo concreto</h4>
+        <p>Não espere o cliente pedir o contrato. Proponha. Se resistir, proponha um próximo passo menor.</p>
+        <div class="script-box" style="margin-top:10px;">
+          <div class="script-box-label">🗣️ Tentativa de fechamento</div>
+          <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+          <p>Opção A (fechamento direto):
+"Posso te enviar o contrato hoje? Assim que assinar, a gente agenda a implantação pra essa semana."
+
+Opção B (se resistência):
+"Entendo. Que tal a gente marcar uma visita presencial pra você conhecer como funciona na prática? Sem compromisso."
+
+Opção C (para o mais resistente):
+"O que você precisaria ver ou saber pra ter certeza que é o certo pra vocês?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num" style="background:#6B7280;font-size:11px;">43–45</div>
+      <div class="step-body">
+        <div class="step-tag info">Encerramento — 2 min</div>
+        <h4>Confirmar próximo passo e prazo</h4>
+        <p>Seja qual for o resultado, saia da call com um próximo passo específico e com data. "Vou pensar" sem data é perda de cliente.</p>
+        <div class="script-box" style="margin-top:10px;">
+          <div class="script-box-label">🗣️ Encerramento</div>
+          <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+          <p>"Perfeito. Então combinamos assim: [repita o próximo passo] até [dia específico]. Qualquer dúvida que surgir, manda mensagem que respondo rápido. Obrigado pelo tempo, [Nome]!"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">📋</span> Checklist pré-call</div>
+  <div class="card">
+    <table>
+      <thead><tr><th>Item</th><th>Pronto?</th></tr></thead>
+      <tbody>
+        <tr><td>Pesquisei o restaurante no iFood e Instagram antes da call</td><td>☐</td></tr>
+        <tr><td>Sei quantos pedidos estimados ele faz por mês</td><td>☐</td></tr>
+        <tr><td>Tenho a proposta estimada já gerada no sistema</td><td>☐</td></tr>
+        <tr><td>Calculei o custo do iFood dele com base no perfil</td><td>☐</td></tr>
+        <tr><td>Estou em ambiente silencioso, com fone</td><td>☐</td></tr>
+        <tr><td>Tenho o roteiro desta página aberta para consulta</td><td>☐</td></tr>
+        <tr><td>Defini qual técnica de fechamento vou usar primeiro</td><td>☐</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">🧠 O que fazer se a call fugir do roteiro</div>
+    <p>Vai fugir. Sempre. O roteiro não é um script rígido — é um mapa. Se o cliente abrir uma dor muito forte no meio da apresentação, pause e aprofunde o diagnóstico. Volte ao mapa depois. O objetivo de cada bloco é claro: ouvir, mostrar custo, apresentar, fechar.</p>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_ROTEIRO_CALL -->
+
+<!-- BLOCO_INÍCIO: PAGINA_FAQ -->
+<div class="page" id="page-faq">
+  <div class="page-header">
+    <div class="page-title">❓ FAQ do vendedor</div>
+    <div class="page-subtitle">As 25 perguntas mais difíceis que donos de restaurante fazem — com resposta exata. Sem improvisar.</div>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">🧠 Como usar este FAQ</div>
+    <p>Leia todas antes da primeira call. Marque as que você não se sente seguro para responder. Treine as respostas em voz alta até ficarem naturais — não decoradas, naturais. Vendedor que hesita na resposta sinaliza insegurança.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">💰</span> Perguntas sobre preço e custo</div>
+
+  <div class="accordion">
+    <div class="accordion-header">1. "Por que vocês são tão caros?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Comparado com o quê? Se você usa iFood Entrega hoje, está pagando 27% de cada pedido pro app. Com a gente, você paga a taxa de gestão mais o custo da corrida — na maioria dos casos, menos do que paga hoje. Posso te mostrar o cálculo com os seus números?"</p>
+      <br><p><strong>Se usar entregador informal:</strong> "Some o que você paga hoje pro entregador + os cancelamentos + o tempo que você gasta gerenciando. A gente provavelmente custa igual ou menos, e entrega muito mais estrutura."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">2. "Quanto custa exatamente por mês?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Tem duas partes: a taxa de gestão (fixa por plano: R$799, R$1.100 ou R$1.600/mês dependendo do volume) mais o custo variável das corridas, que depende da distância e dos dias que operam. Com os dados do volume de vocês, consigo te dar o número exato em menos de 24 horas."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">3. "Tem como testar antes de contratar?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "O contrato é de 12 meses, mas com cláusula de rescisão com 30 dias de aviso. A implantação leva 5 dias úteis — a gente não cobra nada extra por isso. O que posso fazer é priorizar o início da operação de vocês para vocês verem funcionando antes de qualquer dúvida virar problema."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">4. "Posso pagar só pelo que usar?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "O custo variável de corridas já funciona assim — você paga só pelas entregas realizadas e pelas diárias dos entregadores que trabalharam. A taxa de gestão é fixa porque cobre toda a estrutura: tecnologia, suporte, gestão de escala e relatórios — isso tem custo independente do volume de um dia."</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">🛵</span> Perguntas sobre os entregadores</div>
+
+  <div class="accordion">
+    <div class="accordion-header">5. "E se faltar entregador mesmo assim?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Esse é exatamente o ponto que nos diferencia. A gente tem protocolo de substituição — quando um entregador não confirma, abrimos para outro da base imediatamente. A escala é confirmada todo dia até as 22h do dia anterior. Problema de falta de entregador é o que você tem hoje. Com a gente, é o que você não vai ter mais."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">6. "Os entregadores de vocês são funcionários ou autônomos?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "São parceiros autônomos da Osasco Express — não têm vínculo empregatício com a nossa empresa nem com o restaurante. Isso é importante porque o restaurante não tem nenhuma responsabilidade trabalhista ou previdenciária com eles. Toda a gestão, remuneração e responsabilidade é nossa."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">7. "Meu entregador atual pode continuar trabalhando comigo?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "A gente não vem pra substituir quem já funciona. O entregador de vocês pode continuar — mas a gestão, a escala e a cobertura quando ele falta ficam com a Osasco Express. Quando ele está presente, ótimo. Quando não está, a gente garante que tem cobertura."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">8. "E se o entregador de vocês quebrar algo durante a entrega?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "A Cláusula 4 do contrato cobre isso. Qualquer problema causado por entregador da nossa operação é de responsabilidade da Osasco Express — o restaurante não arca. Em casos de acidente ou imprevisto fora de controle, temos protocolo documentado com foto, tempo de espera e autorização de retorno."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">9. "Vocês podem virar MEI ou CNPJ do entregador?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Esse processo é entre o entregador e a Osasco Express — não envolve o restaurante. O que precisamos de vocês é só o contrato de prestação de serviços assinado. O resto da relação com os entregadores é 100% gerenciado por nós."</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">⚙️</span> Perguntas sobre a operação e tecnologia</div>
+
+  <div class="accordion">
+    <div class="accordion-header">10. "Como funciona a integração com o meu sistema atual?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "A plataforma Foody Delivery tem integração nativa com Saipos e Web Cardápio. A gente faz a configuração inteira — sem custo adicional — em até 5 dias úteis. Se você usa outro sistema, verifico se tem integração e como funciona. Qual sistema vocês usam hoje?"</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">11. "Eu consigo ver em tempo real onde está meu pedido?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Sim. Pelo painel, você vê em tempo real: status de cada entrega, localização do entregador no mapa, histórico completo. E você pode enviar link de rastreamento pro cliente final — isso aumenta a percepção de qualidade e reduz reclamação."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">12. "E se o sistema cair?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "O Foody Delivery é uma plataforma com histórico de uptime alto. Mas em caso de qualquer instabilidade, o suporte da Osasco Express aciona o despacho manual — você não fica sem entrega. O canal de suporte fica ativo durante todo o turno de operação."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">13. "Quem cuida do grupo de WhatsApp da entrega?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "A Osasco Express. Temos suporte ativo durante o turno. Você tem um canal direto com a nossa operação — não precisa gerenciar nada. O grupo do restaurante tem a loja e o suporte da OE. Você foca em fazer comida, a gente cuida do resto."</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">📄</span> Perguntas sobre o contrato</div>
+
+  <div class="accordion">
+    <div class="accordion-header">14. "12 meses é muito tempo. Posso sair antes?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Pode, com aviso de 30 dias. A cláusula 13 do contrato garante isso. O prazo de 12 meses existe porque a operação precisa de tempo para estabilizar — escala, rota, volume previsível. Nos primeiros 60 dias, você vai ver o resultado. Dificilmente vai querer sair depois disso."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">15. "Meu contador precisa ver o contrato antes." <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Perfeito. O contrato é um instrumento particular entre pessoas jurídicas (B2B), com base no Código Civil. A estrutura tributária está na Cláusula 9 — a gente emite NFS-e sobre a taxa de gestão e relatório detalhado dos custos operacionais, que são dedutíveis. Manda pra ele — vou aguardar o retorno de vocês até [data específica]."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">16. "Vocês emitem nota fiscal?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Sim. Emitimos NFS-e mensalmente sobre a taxa de gestão, com ISS incluso. Os custos operacionais (corridas e diárias) vêm com relatório semanal discriminado — seu contador registra como despesa operacional logística, dedutível."</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">🤔</span> Perguntas de desconfiança</div>
+
+  <div class="accordion">
+    <div class="accordion-header">17. "Como eu sei que vocês não somem depois que eu assinar?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Boa pergunta — e entendo de onde vem. Posso te colocar em contato direto com um cliente atual para você perguntar como é a operação no dia a dia. Além disso, o contrato tem cláusulas de obrigação da nossa parte — se a gente falhar, você pode rescindir sem multa. A nossa reputação depende de cada cliente que atendemos."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">18. "Já vi empresa assim que prometeu muito e entregou pouco." <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Entendo — e você tem razão de ter esse cuidado. A diferença que a gente traz é processo documentado: escala confirmada toda noite, relatório toda segunda, suporte ativo durante o turno. Não prometemos que nunca vai ter problema — prometemos que quando tiver, a gente resolve. Posso te mostrar como funciona na prática antes de assinar qualquer coisa?"</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">19. "Por que a Osasco Express e não o iFood Entrega que já conheço?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Com o iFood Entrega, você paga 27% de cada pedido e não tem controle nenhum de quem vai entregar, quanto tempo vai levar ou o que acontece se der problema. Com a Osasco Express, você tem entregador fixo com escala, relatório semanal, rastreamento e suporte — e paga por corrida, não por percentual da venda. Quanto mais você vende, mais a diferença de custo aumenta a seu favor."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">20. "Qual a diferença de vocês para um aplicativo de motoboy?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "App de motoboy você chama um entregador avulso — sem escala, sem garantia de disponibilidade, sem relatório, sem gestão. A Osasco Express é uma operação gerenciada: entregadores com escala diária confirmada, supervisor monitorando, rastreamento em tempo real, suporte durante o turno e relatório toda semana. É a diferença entre chamar um táxi e ter um motorista particular com agenda."</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">⏰</span> Perguntas de timing</div>
+
+  <div class="accordion">
+    <div class="accordion-header">21. "Estou em alta temporada agora. Não é boa hora para mudar." <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Alta temporada é exatamente quando mais dói não ter estrutura. A implantação leva 5 dias — se você começar hoje, em uma semana está operando. Se esperar a temporada acabar, vai perder o período de maior volume sem o suporte. Qual o seu próximo pico intenso?"</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">22. "Vou abrir mais uma unidade em breve. Esperaria para fazer junto." <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Ótimo — a Osasco Express já opera com múltiplos pontos. Quando a segunda unidade abrir, a integração é muito mais rápida porque já temos o processo rodando. Começar com uma unidade é o caminho certo — você aprende o sistema sem pressão."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">23. "Vocês atendem qual região?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "Hoje operamos em Osasco e região — Carapicuíba, Barueri e cidades vizinhas. O raio máximo de entrega é 12 km a partir do restaurante. Acima disso, a gente analisa caso a caso. Onde vocês estão localizados?"</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">24. "Quanto tempo leva para começar a operar?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "5 dias úteis após a assinatura do contrato e o primeiro pagamento. Nesse prazo: integração do sistema, configuração da escala, teste de entrega. No 6° dia, vocês já estão operando com suporte da Osasco Express."</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">25. "E se eu quiser expandir para mais entregadores depois?" <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p><strong>Resposta:</strong> "O contrato prevê upgrade de plano com aditivo — sem precisar rescindir e começar do zero. Se o volume crescer além do plano atual, a gente ajusta a escala junto com você. Crescimento é o que a gente quer para os dois lados."</p>
+    </div>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_FAQ -->
+
+<!-- BLOCO_INÍCIO: PAGINA_HANDOFF -->
+<div class="page" id="page-handoff">
+  <div class="page-header">
+    <div class="page-title">🔗 Handoff → Proposta Inteligente OE</div>
+    <div class="page-subtitle">O checklist exato do que você precisa ter em mãos antes de gerar a proposta — e como apresentar o resultado.</div>
+  </div>
+
+  <div class="highlight-box green">
+    <div class="highlight-box-title">✅ O handoff perfeito</div>
+    <p>Handoff é a transição entre a conversa de vendas e a geração da proposta formal. Quanto mais dados você tiver, melhor a proposta. Quanto mais rápido você gerar, maior a taxa de fechamento. <strong>Meta: proposta pronta em menos de 2 horas após receber os dados.</strong></p>
+  </div>
+
+  <div class="section-title"><span class="icon">📋</span> Checklist — o que coletar antes de gerar a proposta</div>
+
+  <div class="card">
+    <table>
+      <thead><tr><th>Dado</th><th>Onde conseguir</th><th>Obrigatório?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Razão social</strong></td><td>CNPJ no site da Receita Federal, ou perguntar diretamente</td><td><span class="td-tag" style="background:rgba(234,29,44,0.1);color:var(--red);">Sim</span></td></tr>
+        <tr><td><strong>Nome fantasia</strong></td><td>Nome do restaurante</td><td><span class="td-tag" style="background:rgba(234,29,44,0.1);color:var(--red);">Sim</span></td></tr>
+        <tr><td><strong>CNPJ</strong></td><td>Perguntar ao dono ou ver no cardápio</td><td><span class="td-tag" style="background:rgba(234,29,44,0.1);color:var(--red);">Sim</span></td></tr>
+        <tr><td><strong>Endereço completo</strong></td><td>Google Maps, iFood ou perguntar</td><td><span class="td-tag" style="background:rgba(234,29,44,0.1);color:var(--red);">Sim</span></td></tr>
+        <tr><td><strong>Nome e cargo do responsável</strong></td><td>Quem você está falando</td><td><span class="td-tag" style="background:rgba(234,29,44,0.1);color:var(--red);">Sim</span></td></tr>
+        <tr><td><strong>Nº de pedidos dos últimos 30 dias</strong></td><td>Planilha enviada ao cliente, ou estimativa do iFood</td><td><span class="td-tag" style="background:rgba(234,29,44,0.1);color:var(--red);">Sim</span></td></tr>
+        <tr><td><strong>Distância média das entregas (km)</strong></td><td>Planilha, ou perguntar (estimativa: 3–5 km para maioria)</td><td><span class="td-tag" style="background:rgba(234,29,44,0.1);color:var(--red);">Sim</span></td></tr>
+        <tr><td><strong>Regime tributário</strong></td><td>Perguntar ao dono ou ao contador</td><td><span class="td-tag" style="background:rgba(255,122,0,0.12);color:var(--orange);">Recomendado</span></td></tr>
+        <tr><td><strong>Dias e horários de funcionamento</strong></td><td>iFood, Instagram ou perguntar</td><td><span class="td-tag" style="background:rgba(255,122,0,0.12);color:var(--orange);">Recomendado</span></td></tr>
+        <tr><td><strong>Plataforma de venda atual</strong></td><td>Perguntar na conversa de diagnóstico</td><td><span class="td-tag" style="background:rgba(255,122,0,0.12);color:var(--orange);">Recomendado</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-title"><span class="icon">⚡</span> Quando você NÃO tem todos os dados</div>
+
+  <div class="accordion">
+    <div class="accordion-header">Não tenho a planilha — só a estimativa verbal <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p>Use os 2 números mínimos: pedidos por dia (estimativa) × 30 = projeção mensal. Distância: use 4 km como padrão se não souber. Gere a proposta com a nota "baseada em estimativa — ajustamos com os dados reais da planilha". Isso não impede o fechamento.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">Não tenho o CNPJ ainda <span class="accordion-arrow">▼</span></div>
+    <div class="accordion-body">
+      <p>Busque o nome do restaurante no site da Receita Federal (gov.br/receitafederal) → consulta CNPJ. Na maioria dos casos você acha pelo nome fantasia. Se não achar, gere a proposta com [A COMPLETAR] e peça o dado antes da assinatura.</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">🚀</span> Passo a passo — gerar a proposta no sistema</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num blue">1</div>
+      <div class="step-body">
+        <h4>Abrir o Proposta Inteligente OE</h4>
+        <p>Acesse o sistema interno. Aba "1. Dados do cliente". Os dados da Osasco Express já estão fixos — você só preenche os dados do cliente.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num blue">2</div>
+      <div class="step-body">
+        <h4>Preencher dados do cliente</h4>
+        <p>Razão social, nome fantasia, CNPJ, endereço, responsável, cargo e regime tributário. Cada campo tem um placeholder de orientação.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num blue">3</div>
+      <div class="step-body">
+        <h4>Inserir os dados de vendas</h4>
+        <p>Aba "2. Planilha de vendas". Cole o CSV ou use os dados mínimos (pedidos/dia + distância). O sistema calcula a projeção mensal automaticamente.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num green">4</div>
+      <div class="step-body">
+        <h4>Revisar o plano recomendado</h4>
+        <p>Aba "3. Plano recomendado". O sistema já seleciona o plano correto. Você pode ajustar manualmente se quiser propor plano diferente. Confira a estimativa de custo total.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num green">5</div>
+      <div class="step-body">
+        <h4>Gerar contrato ou proposta</h4>
+        <p>Aba "4. Gerar documentos". Clique "Gerar proposta" para proposta comercial completa, ou "Gerar contrato" para o contrato de prestação de serviços com todos os dados do cliente preenchidos.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h4>Enviar ao cliente e agendar a call</h4>
+        <p>Nunca envie a proposta sem já ter call agendada. Script: "Acabei de montar sua proposta com os dados de vocês. Quando você tem 20 minutos para eu te explicar ao vivo? Posso hoje às [hora] ou amanhã às [hora]."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">🎯</span> Como apresentar a proposta ao cliente</div>
+
+  <div class="script-box">
+    <div class="script-box-label">🗣️ Abertura da apresentação da proposta</div>
+    <button class="script-box-copy" onclick="copiarScript(this)">Copiar</button>
+    <p>"[Nome], montei a proposta com base nos dados de vocês — [X] pedidos/mês com distância média de [Y] km. Deixa eu te mostrar o que ficou.
+
+Primeira parte: o plano recomendado para vocês é o [Nome do plano], que cobre até [limite] entregas/mês, por R$ [valor]/mês de taxa de gestão.
+
+Segunda parte: com base na distância e nos dias que operam, estimamos um custo de corridas de R$ [valor]/mês.
+
+Total estimado: R$ [valor total]/mês.
+
+Comparando com o que vocês pagam hoje no iFood Entrega — 27% de [faturamento estimado] — é uma diferença de R$ [economia] a menos por mês, ou R$ [valor anual] por ano."</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">🔢 Se a Osasco Express não for mais barata</div>
+    <p>Acontece com alguns perfis. Nesse caso, mude o argumento: <strong>não é sobre preço, é sobre controle e previsibilidade.</strong> "Você paga um pouco a mais para saber exatamente quanto vai custar todo mês, ter relatório completo, suporte ativo e não perder mais avaliação por problema de entrega. Quanto vale isso pra você?"</p>
+  </div>
+
+  <div class="section-title"><span class="icon">📅</span> Linha do tempo do handoff</div>
+  <div class="card">
+    <table>
+      <thead><tr><th>Momento</th><th>Ação</th><th>Prazo</th></tr></thead>
+      <tbody>
+        <tr><td>Fim do diagnóstico</td><td>Pedir os dados (planilha ou estimativa)</td><td>Na mesma conversa</td></tr>
+        <tr><td>Recebeu os dados</td><td>Gerar proposta no sistema</td><td>Até 2 horas</td></tr>
+        <tr><td>Proposta gerada</td><td>Enviar + agendar call de apresentação</td><td>Imediatamente</td></tr>
+        <tr><td>Call de apresentação</td><td>Apresentar, tirar dúvidas, tentar fechar</td><td>Em 24–48h</td></tr>
+        <tr><td>Não fechou na call</td><td>Follow-up com pergunta direta</td><td>48h depois</td></tr>
+        <tr><td>Fechou</td><td>Enviar contrato + agendar implantação</td><td>Mesmo dia</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- BLOCO_FIM: PAGINA_HANDOFF -->
+
+<!-- BLOCO_INÍCIO: JAVASCRIPT -->
+<script>
+var pages = ['inicio','cliente-ideal','mercado','primeiro-contato','diagnostico','planilha','apresentacao','objecoes','fechamento','funil','roteiro-call','faq','handoff','scripts','psicologia','referencias','especialistas'];
+
+var searchIndex = [
+  {title:'Quem é o cliente certo',sub:'Perfis que fecham e que não fecham',page:'cliente-ideal',keywords:'pizzaria hamburgeria japonês ticket médio gourmet'},
+  {title:'O mercado e os números',sub:'Taxas iFood, ticket médio por segmento',page:'mercado',keywords:'ifood comissão taxa entrega 27% 12% 23%'},
+  {title:'Primeiro contato',sub:'Scripts WhatsApp e presencial',page:'primeiro-contato',keywords:'whatsapp script abordagem mensagem primeiro'},
+  {title:'Diagnóstico da dor',sub:'Perguntas SPIN para revelar o problema',page:'diagnostico',keywords:'pergunta dor problema entregador falta cancelamento'},
+  {title:'A planilha de vendas',sub:'Como pedir e por que é essencial',page:'planilha',keywords:'planilha dados 30 dias como pedir resistência'},
+  {title:'Apresentação da proposta',sub:'Estrutura de 15 minutos',page:'apresentacao',keywords:'proposta plano preço apresentar valor economia'},
+  {title:'Objeções',sub:'As 6 mais comuns com resposta pronta',page:'objecoes',keywords:'caro vou pensar não quero contrato já tentei'},
+  {title:'Fechamento',sub:'Técnicas e o momento certo',page:'fechamento',keywords:'fechar assinar contrato próximo passo'},
+  {title:'Scripts prontos',sub:'WhatsApp, ligação, presencial',page:'scripts',keywords:'script copiar mensagem texto whatsapp ligação'},
+  {title:'Psicologia da venda',sub:'Princípios que criam confiança',page:'psicologia',keywords:'confiança reciprocidade prova social ancoragem escassez cialdini'},
+  {title:'Referências mundiais',sub:'Neil Rackham, Cialdini, Aaron Ross...',page:'referencias',keywords:'spin selling influence neil rackham cialdini aaron ross joe girard'},
+  {title:'Especialistas para convidar',sub:'Psicólogo e especialista em growth',page:'especialistas',keywords:'psicólogo especialista convidar growth foodservice'},
+  {title:'Funil de vendas + KPIs',sub:'Etapas, metas, cadência e onde trava',page:'funil',keywords:'funil kpi meta taxa conversão abordagem trava cadência'},
+  {title:'Roteiro da call (45 min)',sub:'Os 7 blocos da reunião de vendas',page:'roteiro-call',keywords:'call reunião roteiro 45 minutos diagnóstico apresentação fechamento'},
+  {title:'FAQ do vendedor',sub:'25 perguntas difíceis com resposta pronta',page:'faq',keywords:'faq perguntas respostas caro contrato entregador nota fiscal cnpj'},
+  {title:'Handoff → Proposta Inteligente OE',sub:'Do dado ao contrato em 2 horas',page:'handoff',keywords:'handoff proposta gerar sistema dados checklist contrato'},
+];
+
+function switchPage(id) {
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.sidebar-item').forEach(function(i){ i.classList.remove('active'); });
+  var pg = document.getElementById('page-' + id);
+  if(pg) pg.classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(function(i){
+    if(i.getAttribute('data-page') === id) i.classList.add('active');
+  });
+  window.scrollTo(0, 0);
+  closeSidebar();
+}
+
+document.querySelectorAll('.sidebar-item').forEach(function(item){
+  item.addEventListener('click', function(){
+    switchPage(this.getAttribute('data-page'));
+  });
+});
+
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+document.getElementById('menuBtn').addEventListener('click', function(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+});
+
+document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
+
+document.addEventListener('click', function(e){
+  if(e.target.closest('.accordion-header')){
+    var acc = e.target.closest('.accordion');
+    acc.classList.toggle('open');
+  }
+});
+
+function copiarScript(btn){
+  var box = btn.closest('.script-box');
+  var p = box.querySelector('p');
+  var text = p.innerText || p.textContent;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(function(){
+      var orig = btn.textContent;
+      btn.textContent = 'Copiado!';
+      setTimeout(function(){ btn.textContent = orig; }, 2000);
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = 'Copiado!';
+    setTimeout(function(){ btn.textContent = 'Copiar'; }, 2000);
+  }
+}
+
+var searchInput = document.getElementById('searchInput');
+var searchDropdown = document.getElementById('searchDropdown');
+
+searchInput.addEventListener('input', function(){
+  var q = this.value.trim().toLowerCase();
+  if(q.length < 2){ searchDropdown.classList.remove('open'); return; }
+  var results = searchIndex.filter(function(item){
+    return (item.title + ' ' + item.sub + ' ' + item.keywords).toLowerCase().includes(q);
+  });
+  if(results.length === 0){ searchDropdown.classList.remove('open'); return; }
+  searchDropdown.innerHTML = results.map(function(r){
+    return '<div class="search-item" onclick="switchPage(\''+r.page+'\');document.getElementById(\'searchInput\').value=\'\';document.getElementById(\'searchDropdown\').classList.remove(\'open\')"><div class="search-item-title">'+r.title+'</div><div class="search-item-sub">'+r.sub+'</div></div>';
+  }).join('');
+  searchDropdown.classList.add('open');
+});
+
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.header-search')) searchDropdown.classList.remove('open');
+});
+
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') searchDropdown.classList.remove('open');
+});
+</script>
+<!-- BLOCO_FIM: JAVASCRIPT -->
+
+</body>
+</html>
